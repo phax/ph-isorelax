@@ -22,33 +22,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class RELAXCatalog
 {
-  private final Map <String, String> grammars_ = new HashMap <> ();
-
-  public RELAXCatalog () throws ParserConfigurationException, SAXException, IOException
-  {
-    this ("http://www.iso-relax.org/catalog");
-  }
-
-  public RELAXCatalog (final String rootURI) throws ParserConfigurationException, SAXException, IOException
-  {
-
-    final String catalogFile = rootURI + "/catalog.xml";
-    final SAXParserFactory factory = SAXParserFactory.newInstance ();
-    final SAXParser saxParser = factory.newSAXParser ();
-    saxParser.parse (catalogFile, new CatalogHandler ());
-  }
-
-  public InputSource getGrammar (final String uri)
-  {
-    final String location = grammars_.get (uri);
-    if (location == null)
-    {
-      return (null);
-    }
-    return (new InputSource (location));
-  }
-
-  class CatalogHandler extends DefaultHandler
+  private final class CatalogHandler extends DefaultHandler
   {
     @Override
     public void startElement (final String namespaceURI,
@@ -60,5 +34,28 @@ public class RELAXCatalog
       final String grammar = atts.getValue ("grammar");
       grammars_.put (uri, grammar);
     }
+  }
+
+  private final Map <String, String> grammars_ = new HashMap<> ();
+
+  public RELAXCatalog () throws ParserConfigurationException, SAXException, IOException
+  {
+    this ("http://www.iso-relax.org/catalog");
+  }
+
+  public RELAXCatalog (final String rootURI) throws ParserConfigurationException, SAXException, IOException
+  {
+    final String catalogFile = rootURI + "/catalog.xml";
+    final SAXParserFactory factory = SAXParserFactory.newInstance ();
+    final SAXParser saxParser = factory.newSAXParser ();
+    saxParser.parse (catalogFile, new CatalogHandler ());
+  }
+
+  public InputSource getGrammar (final String uri)
+  {
+    final String location = grammars_.get (uri);
+    if (location == null)
+      return null;
+    return new InputSource (location);
   }
 }
