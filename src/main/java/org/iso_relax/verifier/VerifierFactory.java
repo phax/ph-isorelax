@@ -52,7 +52,6 @@ public abstract class VerifierFactory
    */
   public Verifier newVerifier (final String uri) throws VerifierConfigurationException, SAXException, IOException
   {
-
     return compileSchema (uri).newVerifier ();
   }
 
@@ -282,11 +281,11 @@ public abstract class VerifierFactory
    *        <p>
    *        It is preferable to use the namespace URI of the schema language to
    *        designate the schema language. For example,
-   *        <table>
+   *        <table summary="possibilities">
    *        <thead>
    *        <tr>
-   *        <td>URI</td>
-   *        <td>language</td>
+   *        <th>URI</th>
+   *        <th>language</th>
    *        </tr>
    *        </thead><tbody>
    *        <tr>
@@ -308,8 +307,8 @@ public abstract class VerifierFactory
    *        </tr>
    *        <tr>
    *        <td><tt>http://www.w3.org/2001/XMLSchema</tt></td>
-   *        <td><a href="http://www.w3.org/TR/xmlschema-1"> W3C XML Schema
-   *        </a></td>
+   *        <td><a href="http://www.w3.org/TR/xmlschema-1"> W3C XML Schema </a>
+   *        </td>
    *        </tr>
    *        <tr>
    *        <td><tt>http://www.w3.org/XML/1998/namespace</tt></td>
