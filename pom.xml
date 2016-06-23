@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.helger</groupId>
+    <artifactId>parent-pom</artifactId>
+    <version>1.8.4</version>
+  </parent>
+  <artifactId>ph-isorelax</artifactId>
+  <version>1.0</version>
+  <packaging>bundle</packaging>
+  <name>ph-isorelax</name>
+  <description>Java 1.8 port of isorelax</description>
+  <url>https://github.com/phax/ph-isorelax</url>
+  <inceptionYear>2016</inceptionYear>
+   
+  <licenses>
+    <license>
+      <name>Apache 2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+       
+  <scm>
+    <connection>scm:git:git@github.com:phax/ph-isorelax.git</connection>
+    <developerConnection>scm:git:git@github.com:phax/ph-isorelax.git</developerConnection>
+    <url>http://github.com/phax/ph-isorelax</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <organization>
+    <name>Philip Helger</name>
+    <url>http://www.helger.com</url>
+  </organization>
+
+  <developers>
+    <developer>
+      <id>philip</id>
+      <name>Philip Helger</name>
+      <email>ph(at)helger.com</email>
+      <url>http://www.helger.com</url>
+    </developer>
+  </developers>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Export-Package>
+              org.iso_relax.*,
+              jp.gr.xml.relax.*
+            </Export-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>  
+  </build>
+</project>
