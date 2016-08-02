@@ -34,7 +34,6 @@
   <description>Java 1.8 port of isorelax</description>
   <url>https://github.com/phax/ph-isorelax</url>
   <inceptionYear>2016</inceptionYear>
-   
   <licenses>
     <license>
       <name>Apache 2</name>
@@ -42,19 +41,16 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-       
   <scm>
     <connection>scm:git:git@github.com:phax/ph-isorelax.git</connection>
     <developerConnection>scm:git:git@github.com:phax/ph-isorelax.git</developerConnection>
     <url>http://github.com/phax/ph-isorelax</url>
     <tag>HEAD</tag>
   </scm>
-
   <organization>
     <name>Philip Helger</name>
     <url>http://www.helger.com</url>
   </organization>
-
   <developers>
     <developer>
       <id>philip</id>
@@ -63,7 +59,6 @@
       <url>http://www.helger.com</url>
     </developer>
   </developers>
-
   <build>
     <plugins>
       <plugin>
@@ -72,16 +67,12 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Export-Package>
-              org.iso_relax.*,
-              jp.gr.xml.relax.*
-            </Export-Package>
-            <Import-Package>
-              !javax.annotation.*,*
-            </Import-Package>
+            <Export-Package>org.iso_relax.*,
+              jp.gr.xml.relax.*</Export-Package>
+            <Import-Package>!javax.annotation.*,*</Import-Package>
           </instructions>
         </configuration>
       </plugin>
-    </plugins>  
+    </plugins>
   </build>
 </project>
