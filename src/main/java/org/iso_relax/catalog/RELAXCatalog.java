@@ -2,7 +2,7 @@
  * Copyright (c) 2001-2002, SourceForge ISO-RELAX Project
  * (ASAMI Tomoharu, Daisuke Okajima, Kohsuke Kawaguchi, and MURATA Makoto)
  *
- * Copyright (C) 2016 Philip Helger (www.helger.com)
+ * Copyright (C) 2016-2017 Philip Helger (www.helger.com)
  * philip[at]helger[dot]com
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
