@@ -19,7 +19,18 @@
  */
 package org.iso_relax.dispatcher;
 
-public interface AttributesVerifier
+/**
+ * IslandSchemaReader is responsible for parsing IslandSchema.
+ *
+ * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
+ */
+public interface IIslandSchemaReader extends org.xml.sax.ContentHandler
 {
-  // work in progress
+  /**
+   * gets parsed schema. this method is called after parsing is finished.
+   *
+   * @return return null if parsing was failed (for example by an error in the
+   *         schema file).
+   */
+  IIslandSchema getSchema ();
 }

@@ -19,11 +19,12 @@
  */
 package org.iso_relax.dispatcher.impl;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.iso_relax.dispatcher.IslandSchema;
-import org.iso_relax.dispatcher.SchemaProvider;
+import org.iso_relax.dispatcher.IIslandSchema;
+import org.iso_relax.dispatcher.ISchemaProvider;
 
 /**
  * default implementation of SchemaProvider. Applications can use this class as
@@ -31,37 +32,37 @@ import org.iso_relax.dispatcher.SchemaProvider;
  *
  * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  */
-public abstract class AbstractSchemaProviderImpl implements SchemaProvider
+public abstract class AbstractSchemaProviderImpl implements ISchemaProvider
 {
 
   /** a map from primary namespace to IslandSchema. */
-  protected final Map <String, IslandSchema> schemata = new java.util.HashMap <> ();
+  protected final Map <String, IIslandSchema> m_aSchemata = new HashMap <> ();
 
   /**
    * adds a new IslandSchema. the caller should make sure that the given uri is
    * not defined already.
    */
-  public void addSchema (final String uri, final IslandSchema s)
+  public void addSchema (final String uri, final IIslandSchema s)
   {
-    if (schemata.containsKey (uri))
+    if (m_aSchemata.containsKey (uri))
       throw new IllegalArgumentException ();
-    schemata.put (uri, s);
+    m_aSchemata.put (uri, s);
   }
 
-  public IslandSchema getSchemaByNamespace (final String uri)
+  public IIslandSchema getSchemaByNamespace (final String uri)
   {
-    return schemata.get (uri);
+    return m_aSchemata.get (uri);
   }
 
   public Iterator <String> iterateNamespace ()
   {
-    return schemata.keySet ().iterator ();
+    return m_aSchemata.keySet ().iterator ();
   }
 
-  public IslandSchema [] getSchemata ()
+  public IIslandSchema [] getSchemata ()
   {
-    final IslandSchema [] r = new IslandSchema [schemata.size ()];
-    schemata.values ().toArray (r);
+    final IIslandSchema [] r = new IIslandSchema [m_aSchemata.size ()];
+    m_aSchemata.values ().toArray (r);
     return r;
   }
 }

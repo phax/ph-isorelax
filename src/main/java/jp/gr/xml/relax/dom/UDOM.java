@@ -31,6 +31,9 @@ import org.w3c.dom.Node;
  */
 public final class UDOM
 {
+  private UDOM ()
+  {}
+
   // text generation
   public static String getXMLText (final Document doc)
   {

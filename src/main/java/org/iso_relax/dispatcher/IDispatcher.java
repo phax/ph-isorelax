@@ -30,7 +30,7 @@ import org.xml.sax.XMLReader;
  *         Given)</a>, <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  * @version 1.1
  */
-public interface Dispatcher
+public interface IDispatcher
 {
   /**
    * configure XMLReader to use this Dispatcher as a ContentHandler.
@@ -41,7 +41,7 @@ public interface Dispatcher
    * switches to the child IslandVerifier. this method can only be called during
    * startElement method.
    */
-  void switchVerifier (IslandVerifier newVerifier) throws SAXException;
+  void switchVerifier (IIslandVerifier newVerifier) throws SAXException;
 
   /**
    * sets application-implemented ErrorHandler, which will receive all
@@ -57,19 +57,19 @@ public interface Dispatcher
   ErrorHandler getErrorHandler ();
 
   /** get ShcmeaProvider object which is attached to this Dispatcher. */
-  SchemaProvider getSchemaProvider ();
+  ISchemaProvider getSchemaProvider ();
 
   public static class NotationDecl
   {
-    public final String name;
-    public final String publicId;
-    public final String systemId;
+    public final String m_sName;
+    public final String m_sPublicId;
+    public final String m_sSystemId;
 
     public NotationDecl (final String pname, final String ppublicId, final String psystemId)
     {
-      this.name = pname;
-      this.publicId = ppublicId;
-      this.systemId = psystemId;
+      m_sName = pname;
+      m_sPublicId = ppublicId;
+      m_sSystemId = psystemId;
     }
   }
 
@@ -85,21 +85,20 @@ public interface Dispatcher
 
   public static class UnparsedEntityDecl
   {
-
-    public final String name;
-    public final String publicId;
-    public final String systemId;
-    public final String notation;
+    public final String m_sName;
+    public final String m_sPublicId;
+    public final String m_sSystemId;
+    public final String m_sNotation;
 
     public UnparsedEntityDecl (final String pname,
                                final String ppublicId,
                                final String psystemId,
                                final String pnotation)
     {
-      this.name = pname;
-      this.publicId = ppublicId;
-      this.systemId = psystemId;
-      this.notation = pnotation;
+      m_sName = pname;
+      m_sPublicId = ppublicId;
+      m_sSystemId = psystemId;
+      m_sNotation = pnotation;
     }
   }
 

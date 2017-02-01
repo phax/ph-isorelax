@@ -51,12 +51,13 @@ public class RELAXCatalog
     {
       final String uri = atts.getValue ("uri");
       final String grammar = atts.getValue ("grammar");
-      grammars_.put (uri, grammar);
+      m_aGrammars.put (uri, grammar);
     }
   }
 
-  private final Map <String, String> grammars_ = new HashMap<> ();
+  private final Map <String, String> m_aGrammars = new HashMap <> ();
 
+  @Deprecated
   public RELAXCatalog () throws ParserConfigurationException, SAXException, IOException
   {
     this ("http://www.iso-relax.org/catalog");
@@ -72,7 +73,7 @@ public class RELAXCatalog
 
   public InputSource getGrammar (final String uri)
   {
-    final String location = grammars_.get (uri);
+    final String location = m_aGrammars.get (uri);
     if (location == null)
       return null;
     return new InputSource (location);

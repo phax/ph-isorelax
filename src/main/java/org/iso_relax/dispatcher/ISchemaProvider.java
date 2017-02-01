@@ -27,19 +27,19 @@ import java.util.Iterator;
  *
  * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  */
-public interface SchemaProvider
+public interface ISchemaProvider
 {
   /**
    * creates IslandVerifier that validates document element.
    */
-  IslandVerifier createTopLevelVerifier ();
+  IIslandVerifier createTopLevelVerifier ();
 
   /**
    * gets IslandSchema whose primary namespace URI is the given value.
    *
    * @return null if no such IslandSchema exists.
    */
-  IslandSchema getSchemaByNamespace (String uri);
+  IIslandSchema getSchemaByNamespace (String uri);
 
   /**
    * iterates all namespaces that are registered in this object.
@@ -49,5 +49,5 @@ public interface SchemaProvider
   /**
    * returns all IslandSchemata at once.
    */
-  IslandSchema [] getSchemata ();
+  IIslandSchema [] getSchemata ();
 }

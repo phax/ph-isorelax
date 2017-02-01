@@ -26,7 +26,7 @@ import java.io.InputStream;
 
 import javax.xml.parsers.SAXParser;
 
-import org.iso_relax.verifier.Verifier;
+import org.iso_relax.verifier.IVerifier;
 import org.xml.sax.HandlerBase;
 import org.xml.sax.InputSource;
 import org.xml.sax.Parser;
@@ -46,8 +46,8 @@ import org.xml.sax.helpers.DefaultHandler;
 @SuppressWarnings ("deprecation")
 class ValidatingSAXParser extends SAXParser
 {
-  protected SAXParser _WrappedParser;
-  protected Verifier _Verifier;
+  protected SAXParser m_aWrappedParser;
+  protected IVerifier m_aVerifier;
 
   /**
    * creates a new instance with an internal SAXParser and Schema.
@@ -57,10 +57,10 @@ class ValidatingSAXParser extends SAXParser
    * @param verifier
    *        verifier.
    */
-  public ValidatingSAXParser (final SAXParser wrapped, final Verifier verifier)
+  public ValidatingSAXParser (final SAXParser wrapped, final IVerifier verifier)
   {
-    _WrappedParser = wrapped;
-    _Verifier = verifier;
+    m_aWrappedParser = wrapped;
+    m_aVerifier = verifier;
   }
 
   /**
@@ -78,8 +78,8 @@ class ValidatingSAXParser extends SAXParser
   @Override
   public XMLReader getXMLReader () throws SAXException
   {
-    final XMLFilter filter = _Verifier.getVerifierFilter ();
-    filter.setParent (_WrappedParser.getXMLReader ());
+    final XMLFilter filter = m_aVerifier.getVerifierFilter ();
+    filter.setParent (m_aWrappedParser.getXMLReader ());
     return filter;
   }
 
@@ -89,7 +89,7 @@ class ValidatingSAXParser extends SAXParser
   @Override
   public boolean isNamespaceAware ()
   {
-    return _WrappedParser.isNamespaceAware ();
+    return m_aWrappedParser.isNamespaceAware ();
   }
 
   /**
@@ -108,7 +108,7 @@ class ValidatingSAXParser extends SAXParser
   public void setProperty (final String name, final Object value) throws SAXNotRecognizedException,
                                                                   SAXNotSupportedException
   {
-    _WrappedParser.setProperty (name, value);
+    m_aWrappedParser.setProperty (name, value);
   }
 
   /**
@@ -117,7 +117,7 @@ class ValidatingSAXParser extends SAXParser
   @Override
   public Object getProperty (final String name) throws SAXNotRecognizedException, SAXNotSupportedException
   {
-    return _WrappedParser.getProperty (name);
+    return m_aWrappedParser.getProperty (name);
   }
 
   // SAX1 features are not supported

@@ -23,7 +23,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.iso_relax.verifier.Schema;
+import org.iso_relax.verifier.ISchema;
 import org.iso_relax.verifier.VerifierConfigurationException;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
@@ -36,10 +36,10 @@ import org.xml.sax.SAXNotSupportedException;
  */
 public class ValidatingSAXParserFactory extends SAXParserFactory
 {
-  protected SAXParserFactory _WrappedFactory;
-  protected Schema _Schema;
+  protected SAXParserFactory m_aWrappedFactory;
+  protected ISchema m_aSchema;
 
-  private boolean validation = true;
+  private boolean m_bValidation = true;
 
   /**
    * creates a new instance that wraps the default DocumentBuilderFactory
@@ -47,7 +47,7 @@ public class ValidatingSAXParserFactory extends SAXParserFactory
    * @param schema
    *        the compiled Schema object. It can not be null.
    */
-  public ValidatingSAXParserFactory (final Schema schema)
+  public ValidatingSAXParserFactory (final ISchema schema)
   {
     this (SAXParserFactory.newInstance (), schema);
   }
@@ -60,10 +60,10 @@ public class ValidatingSAXParserFactory extends SAXParserFactory
    * @param schema
    *        compiled schema.
    */
-  public ValidatingSAXParserFactory (final SAXParserFactory wrapped, final Schema schema)
+  public ValidatingSAXParserFactory (final SAXParserFactory wrapped, final ISchema schema)
   {
-    _WrappedFactory = wrapped;
-    _Schema = schema;
+    m_aWrappedFactory = wrapped;
+    m_aSchema = schema;
   }
 
   /**
@@ -77,14 +77,14 @@ public class ValidatingSAXParserFactory extends SAXParserFactory
     {
       try
       {
-        return new ValidatingSAXParser (_WrappedFactory.newSAXParser (), _Schema.newVerifier ());
+        return new ValidatingSAXParser (m_aWrappedFactory.newSAXParser (), m_aSchema.newVerifier ());
       }
       catch (final VerifierConfigurationException ex)
       {
         throw new ParserConfigurationException (ex.getMessage ());
       }
     }
-    return _WrappedFactory.newSAXParser ();
+    return m_aWrappedFactory.newSAXParser ();
   }
 
   /**
@@ -95,7 +95,7 @@ public class ValidatingSAXParserFactory extends SAXParserFactory
                                                                   SAXNotRecognizedException,
                                                                   SAXNotSupportedException
   {
-    _WrappedFactory.setFeature (name, value);
+    m_aWrappedFactory.setFeature (name, value);
   }
 
   /**
@@ -106,30 +106,30 @@ public class ValidatingSAXParserFactory extends SAXParserFactory
                                                 SAXNotRecognizedException,
                                                 SAXNotSupportedException
   {
-    return _WrappedFactory.getFeature (name);
+    return m_aWrappedFactory.getFeature (name);
   }
 
   @Override
   public boolean isNamespaceAware ()
   {
-    return _WrappedFactory.isNamespaceAware ();
+    return m_aWrappedFactory.isNamespaceAware ();
   }
 
   @Override
   public void setNamespaceAware (final boolean awareness)
   {
-    _WrappedFactory.setNamespaceAware (awareness);
+    m_aWrappedFactory.setNamespaceAware (awareness);
   }
 
   @Override
   public boolean isValidating ()
   {
-    return validation;
+    return m_bValidation;
   }
 
   @Override
   public void setValidating (final boolean validating)
   {
-    validation = validating;
+    m_bValidation = validating;
   }
 }

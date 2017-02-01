@@ -28,7 +28,7 @@
     <version>1.9.2</version>
   </parent>
   <artifactId>ph-isorelax</artifactId>
-  <version>1.1.2-SNAPSHOT</version>
+  <version>1.2.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>ph-isorelax</name>
   <description>Java 1.8 port of isorelax</description>

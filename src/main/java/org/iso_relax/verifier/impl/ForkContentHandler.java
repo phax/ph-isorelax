@@ -32,6 +32,8 @@ import org.xml.sax.SAXException;
  */
 public class ForkContentHandler implements ContentHandler
 {
+  private final ContentHandler m_aLhs;
+  private final ContentHandler m_aRhs;
 
   /**
    * Creates a ForkContentHandler.
@@ -44,8 +46,8 @@ public class ForkContentHandler implements ContentHandler
    */
   public ForkContentHandler (final ContentHandler first, final ContentHandler second)
   {
-    lhs = first;
-    rhs = second;
+    m_aLhs = first;
+    m_aRhs = second;
   }
 
   /**
@@ -63,36 +65,34 @@ public class ForkContentHandler implements ContentHandler
     return result;
   }
 
-  private final ContentHandler lhs, rhs;
-
   public void setDocumentLocator (final Locator locator)
   {
-    lhs.setDocumentLocator (locator);
-    rhs.setDocumentLocator (locator);
+    m_aLhs.setDocumentLocator (locator);
+    m_aRhs.setDocumentLocator (locator);
   }
 
   public void startDocument () throws SAXException
   {
-    lhs.startDocument ();
-    rhs.startDocument ();
+    m_aLhs.startDocument ();
+    m_aRhs.startDocument ();
   }
 
   public void endDocument () throws SAXException
   {
-    lhs.endDocument ();
-    rhs.endDocument ();
+    m_aLhs.endDocument ();
+    m_aRhs.endDocument ();
   }
 
   public void startPrefixMapping (final String prefix, final String uri) throws SAXException
   {
-    lhs.startPrefixMapping (prefix, uri);
-    rhs.startPrefixMapping (prefix, uri);
+    m_aLhs.startPrefixMapping (prefix, uri);
+    m_aRhs.startPrefixMapping (prefix, uri);
   }
 
   public void endPrefixMapping (final String prefix) throws SAXException
   {
-    lhs.endPrefixMapping (prefix);
-    rhs.endPrefixMapping (prefix);
+    m_aLhs.endPrefixMapping (prefix);
+    m_aRhs.endPrefixMapping (prefix);
   }
 
   public void startElement (final String uri,
@@ -100,38 +100,38 @@ public class ForkContentHandler implements ContentHandler
                             final String qName,
                             final Attributes attributes) throws SAXException
   {
-    lhs.startElement (uri, localName, qName, attributes);
-    rhs.startElement (uri, localName, qName, attributes);
+    m_aLhs.startElement (uri, localName, qName, attributes);
+    m_aRhs.startElement (uri, localName, qName, attributes);
   }
 
   public void endElement (final String uri, final String localName, final String qName) throws SAXException
   {
-    lhs.endElement (uri, localName, qName);
-    rhs.endElement (uri, localName, qName);
+    m_aLhs.endElement (uri, localName, qName);
+    m_aRhs.endElement (uri, localName, qName);
   }
 
   public void characters (final char ch[], final int start, final int length) throws SAXException
   {
-    lhs.characters (ch, start, length);
-    rhs.characters (ch, start, length);
+    m_aLhs.characters (ch, start, length);
+    m_aRhs.characters (ch, start, length);
   }
 
   public void ignorableWhitespace (final char ch[], final int start, final int length) throws SAXException
   {
-    lhs.ignorableWhitespace (ch, start, length);
-    rhs.ignorableWhitespace (ch, start, length);
+    m_aLhs.ignorableWhitespace (ch, start, length);
+    m_aRhs.ignorableWhitespace (ch, start, length);
   }
 
   public void processingInstruction (final String target, final String data) throws SAXException
   {
-    lhs.processingInstruction (target, data);
-    rhs.processingInstruction (target, data);
+    m_aLhs.processingInstruction (target, data);
+    m_aRhs.processingInstruction (target, data);
   }
 
   public void skippedEntity (final String name) throws SAXException
   {
-    lhs.skippedEntity (name);
-    rhs.skippedEntity (name);
+    m_aLhs.skippedEntity (name);
+    m_aRhs.skippedEntity (name);
   }
 
 }

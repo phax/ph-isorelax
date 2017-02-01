@@ -39,6 +39,7 @@ import org.xml.sax.SAXNotRecognizedException;
  */
 public abstract class VerifierFactory
 {
+  private EntityResolver m_aResolver;
 
   /**
    * parses a schema at the specified location and returns a Verifier object
@@ -50,7 +51,7 @@ public abstract class VerifierFactory
    * @param uri
    *        URI of a schema file
    */
-  public Verifier newVerifier (final String uri) throws VerifierConfigurationException, SAXException, IOException
+  public IVerifier newVerifier (final String uri) throws VerifierConfigurationException, SAXException, IOException
   {
     return compileSchema (uri).newVerifier ();
   }
@@ -62,7 +63,7 @@ public abstract class VerifierFactory
    * @param file
    *        File of a schema file
    */
-  public Verifier newVerifier (final File file) throws VerifierConfigurationException, SAXException, IOException
+  public IVerifier newVerifier (final File file) throws VerifierConfigurationException, SAXException, IOException
   {
 
     return compileSchema (file).newVerifier ();
@@ -72,9 +73,9 @@ public abstract class VerifierFactory
    * parses a schema from the specified InputStream and returns a Verifier
    * object that validates documents by using that schema.
    */
-  public Verifier newVerifier (final InputStream stream) throws VerifierConfigurationException,
-                                                         SAXException,
-                                                         IOException
+  public IVerifier newVerifier (final InputStream stream) throws VerifierConfigurationException,
+                                                          SAXException,
+                                                          IOException
   {
 
     return compileSchema (stream, null).newVerifier ();
@@ -87,9 +88,9 @@ public abstract class VerifierFactory
    * @param systemId
    *        System ID of this stream.
    */
-  public Verifier newVerifier (final InputStream stream, final String systemId) throws VerifierConfigurationException,
-                                                                                SAXException,
-                                                                                IOException
+  public IVerifier newVerifier (final InputStream stream, final String systemId) throws VerifierConfigurationException,
+                                                                                 SAXException,
+                                                                                 IOException
   {
 
     return compileSchema (stream, systemId).newVerifier ();
@@ -102,9 +103,9 @@ public abstract class VerifierFactory
    * @param source
    *        InputSource of a schema file
    */
-  public Verifier newVerifier (final InputSource source) throws VerifierConfigurationException,
-                                                         SAXException,
-                                                         IOException
+  public IVerifier newVerifier (final InputSource source) throws VerifierConfigurationException,
+                                                          SAXException,
+                                                          IOException
   {
 
     return compileSchema (source).newVerifier ();
@@ -115,9 +116,9 @@ public abstract class VerifierFactory
    * of a schema. The obtained schema object can then be used concurrently
    * across multiple threads.
    */
-  public abstract Schema compileSchema (InputSource is) throws VerifierConfigurationException,
-                                                        SAXException,
-                                                        IOException;
+  public abstract ISchema compileSchema (InputSource is) throws VerifierConfigurationException,
+                                                         SAXException,
+                                                         IOException;
 
   /**
    * processes a schema into a Schema object, which is a compiled representation
@@ -130,7 +131,7 @@ public abstract class VerifierFactory
    * @param url
    *        A source url of a schema file to be compiled.
    */
-  public Schema compileSchema (final String url) throws VerifierConfigurationException, SAXException, IOException
+  public ISchema compileSchema (final String url) throws VerifierConfigurationException, SAXException, IOException
   {
 
     return compileSchema (new InputSource (url));
@@ -144,9 +145,9 @@ public abstract class VerifierFactory
    * @param stream
    *        A stream object that holds a schema.
    */
-  public Schema compileSchema (final InputStream stream) throws VerifierConfigurationException,
-                                                         SAXException,
-                                                         IOException
+  public ISchema compileSchema (final InputStream stream) throws VerifierConfigurationException,
+                                                          SAXException,
+                                                          IOException
   {
 
     return compileSchema (stream, null);
@@ -160,9 +161,9 @@ public abstract class VerifierFactory
    * @param systemId
    *        The system Id of this input stream.
    */
-  public Schema compileSchema (final InputStream stream, final String systemId) throws VerifierConfigurationException,
-                                                                                SAXException,
-                                                                                IOException
+  public ISchema compileSchema (final InputStream stream, final String systemId) throws VerifierConfigurationException,
+                                                                                 SAXException,
+                                                                                 IOException
   {
 
     final InputSource is = new InputSource (stream);
@@ -178,7 +179,7 @@ public abstract class VerifierFactory
    * @param f
    *        A schema file to be compiled
    */
-  public Schema compileSchema (final File f) throws VerifierConfigurationException, SAXException, IOException
+  public ISchema compileSchema (final File f) throws VerifierConfigurationException, SAXException, IOException
   {
 
     String uri = "file:" + f.getAbsolutePath ();
@@ -199,7 +200,7 @@ public abstract class VerifierFactory
   public boolean isFeature (final String feature) throws SAXNotRecognizedException
   {
 
-    if (Verifier.FEATURE_HANDLER.equals (feature) || Verifier.FEATURE_FILTER.equals (feature))
+    if (IVerifier.FEATURE_HANDLER.equals (feature) || IVerifier.FEATURE_FILTER.equals (feature))
       return true;
 
     throw new SAXNotRecognizedException (feature);
@@ -243,15 +244,13 @@ public abstract class VerifierFactory
     throw new SAXNotRecognizedException (property);
   }
 
-  private EntityResolver resolver = null;
-
   /**
    * Sets an EntityResolver This entity resolver is used to resolve entities
    * encountered while parsing a schema.
    */
   public void setEntityResolver (final EntityResolver _resolver)
   {
-    this.resolver = _resolver;
+    this.m_aResolver = _resolver;
   }
 
   /**
@@ -260,7 +259,7 @@ public abstract class VerifierFactory
    */
   public EntityResolver getEntityResolver ()
   {
-    return resolver;
+    return m_aResolver;
   }
 
   /**
@@ -325,7 +324,7 @@ public abstract class VerifierFactory
   public static VerifierFactory newInstance (final String language,
                                              final ClassLoader classLoader) throws VerifierConfigurationException
   {
-    for (final VerifierFactoryLoader loader : ServiceLoader.load (VerifierFactoryLoader.class, classLoader))
+    for (final IVerifierFactoryLoader loader : ServiceLoader.load (IVerifierFactoryLoader.class, classLoader))
     {
       try
       {
@@ -341,6 +340,6 @@ public abstract class VerifierFactory
 
   public static VerifierFactory newInstance (final String language) throws VerifierConfigurationException
   {
-    return newInstance (language, VerifierFactoryLoader.class.getClassLoader ());
+    return newInstance (language, IVerifierFactoryLoader.class.getClassLoader ());
   }
 }

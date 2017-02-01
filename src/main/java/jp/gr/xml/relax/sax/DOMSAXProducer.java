@@ -40,59 +40,59 @@ import jp.gr.xml.relax.dom.UDOMVisitor;
  */
 public class DOMSAXProducer
 {
-  private boolean needDocumentEmulation_ = true;
-  private final Node root_;
-  private String systemID_;
-  private String publicID_;
-  private DTDHandler dtd_;
-  private ContentHandler content_;
-  private DeclHandler decl_;
-  private LexicalHandler lexical_;
-  private ErrorHandler error_;
+  private boolean m_bNeedDocumentEmulation = true;
+  private final Node m_aRoot;
+  private String m_sSystemID;
+  private String m_sPublicID;
+  private DTDHandler m_aDtd;
+  private ContentHandler m_aContent;
+  private DeclHandler m_aDecl;
+  private LexicalHandler m_aLexical;
+  private ErrorHandler m_aError;
 
   public DOMSAXProducer (final Node node)
   {
-    root_ = node;
+    m_aRoot = node;
   }
 
   public void setDocumentEmulation (final boolean emulate)
   {
-    needDocumentEmulation_ = emulate;
+    m_bNeedDocumentEmulation = emulate;
   }
 
   public void setSystemID (final String id)
   {
-    systemID_ = id;
+    m_sSystemID = id;
   }
 
   public void setPublicID (final String id)
   {
-    publicID_ = id;
+    m_sPublicID = id;
   }
 
   public void setDTDHandler (final DTDHandler dtd)
   {
-    dtd_ = dtd;
+    m_aDtd = dtd;
   }
 
   public void setContentHandler (final ContentHandler content)
   {
-    content_ = content;
+    m_aContent = content;
   }
 
   public void setLexicalHandler (final LexicalHandler lexical)
   {
-    lexical_ = lexical;
+    m_aLexical = lexical;
   }
 
   public void setDeclHandler (final DeclHandler decl)
   {
-    decl_ = decl;
+    m_aDecl = decl;
   }
 
   public void setErrorHandler (final ErrorHandler error)
   {
-    error_ = error;
+    m_aError = error;
   }
 
   public void makeEvent () throws SAXException
@@ -100,32 +100,32 @@ public class DOMSAXProducer
     try
     {
       final DOMSAXProducerVisitor visitor = new DOMSAXProducerVisitor ();
-      visitor.setSystemID (systemID_);
-      visitor.setPublicID (publicID_);
-      visitor.setDTDHandler (dtd_);
-      visitor.setContentHandler (content_);
-      visitor.setLexicalHandler (lexical_);
-      visitor.setDeclHandler (decl_);
-      visitor.setErrorHandler (error_);
-      if (!(root_ instanceof Document) && needDocumentEmulation_)
+      visitor.setSystemID (m_sSystemID);
+      visitor.setPublicID (m_sPublicID);
+      visitor.setDTDHandler (m_aDtd);
+      visitor.setContentHandler (m_aContent);
+      visitor.setLexicalHandler (m_aLexical);
+      visitor.setDeclHandler (m_aDecl);
+      visitor.setErrorHandler (m_aError);
+      if (!(m_aRoot instanceof Document) && m_bNeedDocumentEmulation)
       {
         visitor.emulateStartDocument ();
-        UDOMVisitor.traverse (root_, visitor);
+        UDOMVisitor.traverse (m_aRoot, visitor);
         visitor.emulateEndDocument ();
       }
       else
       {
-        UDOMVisitor.traverse (root_, visitor);
+        UDOMVisitor.traverse (m_aRoot, visitor);
       }
     }
     catch (final DOMVisitorException e)
     {
-      final Exception cause = e.getCauseException ();
+      final Throwable cause = e.getCause ();
       if (cause == null)
-        throw (new SAXException (e.getMessage ()));
+        throw new SAXException (e.getMessage ());
       if (cause instanceof SAXException)
-        throw ((SAXException) cause);
-      throw (new SAXException (e.getMessage ()));
+        throw (SAXException) cause;
+      throw new SAXException (e.getMessage ());
     }
   }
 

@@ -23,7 +23,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.iso_relax.verifier.Schema;
+import org.iso_relax.verifier.ISchema;
 import org.iso_relax.verifier.VerifierConfigurationException;
 
 /**
@@ -33,8 +33,8 @@ import org.iso_relax.verifier.VerifierConfigurationException;
  */
 public class ValidatingDocumentBuilderFactory extends DocumentBuilderFactory
 {
-  protected Schema _Schema;
-  protected DocumentBuilderFactory _WrappedFactory;
+  protected ISchema m_aSchema;
+  protected DocumentBuilderFactory m_aWrappedFactory;
 
   private boolean m_bValidation = true;
 
@@ -44,7 +44,7 @@ public class ValidatingDocumentBuilderFactory extends DocumentBuilderFactory
    * @param schema
    *        the compiled Schema object. It can not be null.
    */
-  public ValidatingDocumentBuilderFactory (final Schema schema)
+  public ValidatingDocumentBuilderFactory (final ISchema schema)
   {
     this (DocumentBuilderFactory.newInstance (), schema);
   }
@@ -57,10 +57,10 @@ public class ValidatingDocumentBuilderFactory extends DocumentBuilderFactory
    * @param schema
    *        compiled schema.
    */
-  public ValidatingDocumentBuilderFactory (final DocumentBuilderFactory wrapped, final Schema schema)
+  public ValidatingDocumentBuilderFactory (final DocumentBuilderFactory wrapped, final ISchema schema)
   {
-    _WrappedFactory = wrapped;
-    _Schema = schema;
+    m_aWrappedFactory = wrapped;
+    m_aSchema = schema;
   }
 
   /**
@@ -74,7 +74,7 @@ public class ValidatingDocumentBuilderFactory extends DocumentBuilderFactory
     {
       try
       {
-        return new ValidatingDocumentBuilder (_WrappedFactory.newDocumentBuilder (), _Schema.newVerifier ());
+        return new ValidatingDocumentBuilder (m_aWrappedFactory.newDocumentBuilder (), m_aSchema.newVerifier ());
       }
       catch (final VerifierConfigurationException ex)
       {
@@ -83,19 +83,19 @@ public class ValidatingDocumentBuilderFactory extends DocumentBuilderFactory
     }
     // if validation is disabled, we simply return the implementation of
     // wrapped DocumentBuilder
-    return _WrappedFactory.newDocumentBuilder ();
+    return m_aWrappedFactory.newDocumentBuilder ();
   }
 
   @Override
   public void setFeature (final String name, final boolean value) throws ParserConfigurationException
   {
-    _WrappedFactory.setFeature (name, value);
+    m_aWrappedFactory.setFeature (name, value);
   }
 
   @Override
   public boolean getFeature (final String name) throws ParserConfigurationException
   {
-    return _WrappedFactory.getFeature (name);
+    return m_aWrappedFactory.getFeature (name);
   }
 
   /**
@@ -104,7 +104,7 @@ public class ValidatingDocumentBuilderFactory extends DocumentBuilderFactory
   @Override
   public void setAttribute (final String name, final Object value)
   {
-    _WrappedFactory.setAttribute (name, value);
+    m_aWrappedFactory.setAttribute (name, value);
   }
 
   /**
@@ -113,7 +113,7 @@ public class ValidatingDocumentBuilderFactory extends DocumentBuilderFactory
   @Override
   public Object getAttribute (final String name)
   {
-    return _WrappedFactory.getAttribute (name);
+    return m_aWrappedFactory.getAttribute (name);
   }
 
   @Override
@@ -131,58 +131,58 @@ public class ValidatingDocumentBuilderFactory extends DocumentBuilderFactory
   @Override
   public boolean isCoalescing ()
   {
-    return _WrappedFactory.isCoalescing ();
+    return m_aWrappedFactory.isCoalescing ();
   }
 
   public boolean isExpandEntityReference ()
   {
-    return _WrappedFactory.isExpandEntityReferences ();
+    return m_aWrappedFactory.isExpandEntityReferences ();
   }
 
   @Override
   public boolean isIgnoringComments ()
   {
-    return _WrappedFactory.isIgnoringComments ();
+    return m_aWrappedFactory.isIgnoringComments ();
   }
 
   @Override
   public boolean isIgnoringElementContentWhitespace ()
   {
-    return _WrappedFactory.isIgnoringElementContentWhitespace ();
+    return m_aWrappedFactory.isIgnoringElementContentWhitespace ();
   }
 
   @Override
   public boolean isNamespaceAware ()
   {
-    return _WrappedFactory.isNamespaceAware ();
+    return m_aWrappedFactory.isNamespaceAware ();
   }
 
   @Override
   public void setCoalescing (final boolean coalescing)
   {
-    _WrappedFactory.setCoalescing (coalescing);
+    m_aWrappedFactory.setCoalescing (coalescing);
   }
 
   public void setExpandEntityReference (final boolean expandEntityRef)
   {
-    _WrappedFactory.setExpandEntityReferences (expandEntityRef);
+    m_aWrappedFactory.setExpandEntityReferences (expandEntityRef);
   }
 
   @Override
   public void setIgnoringComments (final boolean ignoreComments)
   {
-    _WrappedFactory.setIgnoringComments (ignoreComments);
+    m_aWrappedFactory.setIgnoringComments (ignoreComments);
   }
 
   @Override
   public void setIgnoringElementContentWhitespace (final boolean whitespace)
   {
-    _WrappedFactory.setIgnoringElementContentWhitespace (whitespace);
+    m_aWrappedFactory.setIgnoringElementContentWhitespace (whitespace);
   }
 
   @Override
   public void setNamespaceAware (final boolean awareness)
   {
-    _WrappedFactory.setNamespaceAware (awareness);
+    m_aWrappedFactory.setNamespaceAware (awareness);
   }
 }

@@ -20,21 +20,19 @@
 package org.iso_relax.verifier;
 
 /**
- * The compiled representation of schemas.
+ * A class that provides information about the verifier implementation.
  * <p>
- * <code>Schema</code> object must be thread-safe; multiple-threads can access
- * one <code>Schema</code> obejct at the same time.
- * <p>
- * The schema object allows an application to "cache" a schema by compiling it
- * once and using it many times, possibly by different threads.
+ * Implementations of this interface are discovered through
+ * <code>META-INF/services</code>, just like JAXP. This object then provides
+ * VerifierFactory implementation for the specified schema language.
+ *
+ * @author <a href="mailto:kohsukekawaguchi@yahoo.com">Kohsuke KAWAGUCHI</a>
  */
-public interface Schema
+public interface IVerifierFactoryLoader
 {
-
   /**
-   * creates a new Verifier object that validates documents with this schema.
-   *
-   * @return a valid non-null instance of a Verifier.
+   * returns a VerifierFactory that supports the specified schema language, or
+   * returns null if it's not supported.
    */
-  Verifier newVerifier () throws VerifierConfigurationException;
+  VerifierFactory createFactory (String schemaLanguage);
 }

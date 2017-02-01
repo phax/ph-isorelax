@@ -33,7 +33,6 @@ import org.xml.sax.SAXException;
  */
 public class VerifierException extends SAXException
 {
-
   public VerifierException (final String message)
   {
     super (message);

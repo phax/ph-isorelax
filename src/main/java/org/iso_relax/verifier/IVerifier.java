@@ -34,7 +34,7 @@ import org.xml.sax.SAXNotSupportedException;
  * An instance of this interface can validates documents.
  * <p>
  * An instance of this interface can be obtained through the
- * {@link VerifierFactory#newVerifier} method or {@link Schema#newVerifier}
+ * {@link VerifierFactory#newVerifier} method or {@link ISchema#newVerifier}
  * method. Once it is created, an application can use one instance to validate
  * multiple documents.
  * <p>
@@ -47,7 +47,7 @@ import org.xml.sax.SAXNotSupportedException;
  * @author ASAMI, Tomoharu (asami@zeomtech.com)
  * @author <a href="mailto:kohsukekawaguchi@yahoo.com">Kohsuke KAWAGUCHI</a>
  */
-public interface Verifier
+public interface IVerifier
 {
   /**
    * a read-only feature that checks whether the implementation supports
@@ -198,7 +198,7 @@ public interface Verifier
    * value; this method does NOT necessarily create a new
    * <code>VerifierHandler</code> object.
    */
-  VerifierHandler getVerifierHandler () throws SAXException;
+  IVerifierHandler getVerifierHandler () throws SAXException;
 
   /**
    * Gets a VerifierFilter.
@@ -210,5 +210,5 @@ public interface Verifier
    * value; this method does NOT necessarily create a new
    * <code>VerifierFilter</code> object.
    */
-  VerifierFilter getVerifierFilter () throws SAXException;
+  IVerifierFilter getVerifierFilter () throws SAXException;
 }

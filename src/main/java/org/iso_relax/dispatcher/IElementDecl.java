@@ -31,7 +31,7 @@ import org.xml.sax.SAXNotSupportedException;
  *
  * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  */
-public interface ElementDecl
+public interface IElementDecl
 {
   /**
    * gets name of this rule. every ElementDecl has a unique name within the

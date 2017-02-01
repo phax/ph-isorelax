@@ -25,7 +25,7 @@ import org.xml.sax.XMLFilter;
  * XMLFilter implementation that validates a document.
  * <p>
  * An instance of this interface can be obtained through the
- * {@link Verifier#getVerifierFilter} method.
+ * {@link IVerifier#getVerifierFilter} method.
  * <p>
  * The implementation validates incoming SAX events and then pass it to the
  * successive SAX handlers.
@@ -34,7 +34,7 @@ import org.xml.sax.XMLFilter;
  * @version Feb. 24, 2001
  * @author ASAMI, Tomoharu (asami@zeomtech.com)
  */
-public interface VerifierFilter extends XMLFilter
+public interface IVerifierFilter extends XMLFilter
 {
   /**
    * checks if the document was valid.

@@ -36,11 +36,10 @@ public class DTDSkipper implements EntityResolver
   public InputSource resolveEntity (final String publicId, final String systemId)
   {
     if (!systemId.endsWith (".dtd"))
-    {
-      return (null);
-    }
+      return null;
+
     final StringReader reader = new StringReader ("");
     final InputSource is = new InputSource (reader);
-    return (is);
+    return is;
   }
 }

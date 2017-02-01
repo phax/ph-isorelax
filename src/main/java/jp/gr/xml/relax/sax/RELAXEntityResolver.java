@@ -32,16 +32,16 @@ public class RELAXEntityResolver extends SimpleEntityResolver
 
   public RELAXEntityResolver ()
   {
-    final String coreUri = getClass ().getResource (BASE_PATH + "relaxCore.dtd").toExternalForm ();
-    final String nsUri = getClass ().getResource (BASE_PATH + "relaxNamespace.dtd").toExternalForm ();
-    final String grammarUri = getClass ().getResource (BASE_PATH + "relax.dtd").toExternalForm ();
+    final String sCoreUri = getClass ().getResource (BASE_PATH + "relaxCore.dtd").toExternalForm ();
+    final String sNSUri = getClass ().getResource (BASE_PATH + "relaxNamespace.dtd").toExternalForm ();
+    final String sGrammarUri = getClass ().getResource (BASE_PATH + "relax.dtd").toExternalForm ();
 
-    addSystemId ("http://www.xml.gr.jp/relax/core1/relaxCore.dtd", coreUri);
-    addSystemId ("relaxCore.dtd", coreUri);
-    addSystemId ("relaxNamespace.dtd", nsUri);
-    addSystemId ("relax.dtd", grammarUri);
-    addPublicId ("-//RELAX//DTD RELAX Core 1.0//JA", coreUri);
-    addPublicId ("-//RELAX//DTD RELAX Namespace 1.0//JA", nsUri); // XXX
-    addPublicId ("-//RELAX//DTD RELAX Grammar 1.0//JA", grammarUri); // XXX
+    addSystemId ("http://www.xml.gr.jp/relax/core1/relaxCore.dtd", sCoreUri);
+    addSystemId ("relaxCore.dtd", sCoreUri);
+    addSystemId ("relaxNamespace.dtd", sNSUri);
+    addSystemId ("relax.dtd", sGrammarUri);
+    addPublicId ("-//RELAX//DTD RELAX Core 1.0//JA", sCoreUri);
+    addPublicId ("-//RELAX//DTD RELAX Namespace 1.0//JA", sNSUri); // XXX
+    addPublicId ("-//RELAX//DTD RELAX Grammar 1.0//JA", sGrammarUri); // XXX
   }
 }

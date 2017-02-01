@@ -19,10 +19,10 @@
  */
 package org.iso_relax.dispatcher.impl;
 
-import org.iso_relax.dispatcher.Dispatcher;
-import org.iso_relax.dispatcher.ElementDecl;
-import org.iso_relax.dispatcher.IslandSchema;
-import org.iso_relax.dispatcher.IslandVerifier;
+import org.iso_relax.dispatcher.IDispatcher;
+import org.iso_relax.dispatcher.IElementDecl;
+import org.iso_relax.dispatcher.IIslandSchema;
+import org.iso_relax.dispatcher.IIslandVerifier;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -32,9 +32,14 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  */
-public final class IgnoreVerifier extends DefaultHandler implements IslandVerifier
+public final class IgnoreVerifier extends DefaultHandler implements IIslandVerifier
 {
-  private final ElementDecl [] rules;
+  private final IElementDecl [] m_aRules;
+  /**
+   * elements in this namespace is validated by this IgnoreVerifier.
+   */
+  private final String m_sNamespaceToIgnore;
+  private IDispatcher m_aDispatcher;
 
   /**
    * @param assignedRules
@@ -42,30 +47,23 @@ public final class IgnoreVerifier extends DefaultHandler implements IslandVerifi
    *        IslandVerifier actually does nothing, all these rules will be
    *        reported as satisfied upon completion.
    */
-  public IgnoreVerifier (final String pnamespaceToIgnore, final ElementDecl [] assignedRules)
+  public IgnoreVerifier (final String pnamespaceToIgnore, final IElementDecl [] assignedRules)
   {
-    this.namespaceToIgnore = pnamespaceToIgnore;
-    this.rules = assignedRules;
+    m_sNamespaceToIgnore = pnamespaceToIgnore;
+    m_aRules = assignedRules;
   }
 
-  /**
-   * elements in this namespace is validated by this IgnoreVerifier.
-   */
-  private final String namespaceToIgnore;
-
-  public ElementDecl [] endIsland ()
+  public IElementDecl [] endIsland ()
   {
-    return rules;
+    return m_aRules;
   }
 
-  public void endChildIsland (final String uri, final ElementDecl [] assignedLabels)
+  public void endChildIsland (final String uri, final IElementDecl [] assignedLabels)
   {}
 
-  private Dispatcher dispatcher;
-
-  public void setDispatcher (final Dispatcher disp)
+  public void setDispatcher (final IDispatcher disp)
   {
-    this.dispatcher = disp;
+    m_aDispatcher = disp;
   }
 
   @Override
@@ -74,19 +72,23 @@ public final class IgnoreVerifier extends DefaultHandler implements IslandVerifi
                             final String qName,
                             final Attributes attributes) throws SAXException
   {
-    if (namespaceToIgnore.equals (namespaceURI))
-      return; // this element is "validated".
+    if (m_sNamespaceToIgnore.equals (namespaceURI))
+    {
+      // this element is "validated".
+      return;
+    }
 
     // try to locate a grammar of this namespace
-    final IslandSchema is = dispatcher.getSchemaProvider ().getSchemaByNamespace (namespaceURI);
+    final IIslandSchema is = m_aDispatcher.getSchemaProvider ().getSchemaByNamespace (namespaceURI);
     if (is == null)
-    {// no grammar is declared with this namespace URI.
+    {
+      // no grammar is declared with this namespace URI.
       return; // continue ignoring.
     }
 
     // a schema is found: revert to normal mode and validate them.
-    final IslandVerifier iv = is.createNewVerifier (namespaceURI, is.getElementDecls ());
-    dispatcher.switchVerifier (iv);
+    final IIslandVerifier iv = is.createNewVerifier (namespaceURI, is.getElementDecls ());
+    m_aDispatcher.switchVerifier (iv);
 
     // simulate this startElement method.
     iv.startElement (namespaceURI, localName, qName, attributes);

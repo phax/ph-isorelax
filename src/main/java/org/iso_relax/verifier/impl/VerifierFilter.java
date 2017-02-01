@@ -19,9 +19,9 @@
  */
 package org.iso_relax.verifier.impl;
 
-import org.iso_relax.verifier.Verifier;
-import org.iso_relax.verifier.VerifierFilter;
-import org.iso_relax.verifier.VerifierHandler;
+import org.iso_relax.verifier.IVerifier;
+import org.iso_relax.verifier.IVerifierFilter;
+import org.iso_relax.verifier.IVerifierHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
@@ -30,12 +30,12 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
 
 /**
- * plain vanilla {@link VerifierFilter} implementation.
+ * plain vanilla {@link IVerifierFilter} implementation.
  * <p>
  * A verifier implementation can use this class to support VerifierFilter
  * functionality.
  * <p>
- * To use this class, implement the {@link Verifier#getVerifierFilter()} method
+ * To use this class, implement the {@link IVerifier#getVerifierFilter()} method
  * as follows:
  *
  * <pre>
@@ -51,21 +51,20 @@ import org.xml.sax.helpers.XMLFilterImpl;
  * @version $Id: VerifierFilterImpl.java,v 1.5 2003/05/30 23:46:33 kkawa Exp $
  * @author <a href="mailto:kohsuke.kawaguchi@sun.com">Kohsuke KAWAGUCHI</a>
  */
-public class VerifierFilterImpl extends XMLFilterImpl implements VerifierFilter
+public class VerifierFilter extends XMLFilterImpl implements IVerifierFilter
 {
+  private final IVerifier m_aVerifier;
+  private final IVerifierHandler m_aCore;
 
-  public VerifierFilterImpl (final Verifier _verifier) throws SAXException
+  public VerifierFilter (final IVerifier _verifier) throws SAXException
   {
-    this.verifier = _verifier;
-    this.core = verifier.getVerifierHandler ();
+    m_aVerifier = _verifier;
+    m_aCore = m_aVerifier.getVerifierHandler ();
   }
-
-  private final Verifier verifier;
-  private final VerifierHandler core;
 
   public boolean isValid ()
   {
-    return core.isValid ();
+    return m_aCore.isValid ();
   }
 
   @Override
@@ -74,14 +73,14 @@ public class VerifierFilterImpl extends XMLFilterImpl implements VerifierFilter
     super.setErrorHandler (handler);
     // we need to call the setErrorHandler method of the verifier,
     // so that the verifier handler will use this error handler from now on.
-    verifier.setErrorHandler (handler);
+    m_aVerifier.setErrorHandler (handler);
   }
 
   @Override
   public void setEntityResolver (final EntityResolver resolver)
   {
     super.setEntityResolver (resolver);
-    verifier.setEntityResolver (resolver);
+    m_aVerifier.setEntityResolver (resolver);
   }
 
   //
@@ -93,35 +92,35 @@ public class VerifierFilterImpl extends XMLFilterImpl implements VerifierFilter
   @Override
   public void setDocumentLocator (final Locator locator)
   {
-    core.setDocumentLocator (locator);
+    m_aCore.setDocumentLocator (locator);
     super.setDocumentLocator (locator);
   }
 
   @Override
   public void startDocument () throws SAXException
   {
-    core.startDocument ();
+    m_aCore.startDocument ();
     super.startDocument ();
   }
 
   @Override
   public void endDocument () throws SAXException
   {
-    core.endDocument ();
+    m_aCore.endDocument ();
     super.endDocument ();
   }
 
   @Override
   public void startPrefixMapping (final String prefix, final String uri) throws SAXException
   {
-    core.startPrefixMapping (prefix, uri);
+    m_aCore.startPrefixMapping (prefix, uri);
     super.startPrefixMapping (prefix, uri);
   }
 
   @Override
   public void endPrefixMapping (final String prefix) throws SAXException
   {
-    core.endPrefixMapping (prefix);
+    m_aCore.endPrefixMapping (prefix);
     super.endPrefixMapping (prefix);
   }
 
@@ -131,42 +130,42 @@ public class VerifierFilterImpl extends XMLFilterImpl implements VerifierFilter
                             final String qName,
                             final Attributes attributes) throws SAXException
   {
-    core.startElement (uri, localName, qName, attributes);
+    m_aCore.startElement (uri, localName, qName, attributes);
     super.startElement (uri, localName, qName, attributes);
   }
 
   @Override
   public void endElement (final String uri, final String localName, final String qName) throws SAXException
   {
-    core.endElement (uri, localName, qName);
+    m_aCore.endElement (uri, localName, qName);
     super.endElement (uri, localName, qName);
   }
 
   @Override
   public void characters (final char ch[], final int start, final int length) throws SAXException
   {
-    core.characters (ch, start, length);
+    m_aCore.characters (ch, start, length);
     super.characters (ch, start, length);
   }
 
   @Override
   public void ignorableWhitespace (final char ch[], final int start, final int length) throws SAXException
   {
-    core.ignorableWhitespace (ch, start, length);
+    m_aCore.ignorableWhitespace (ch, start, length);
     super.ignorableWhitespace (ch, start, length);
   }
 
   @Override
   public void processingInstruction (final String target, final String data) throws SAXException
   {
-    core.processingInstruction (target, data);
+    m_aCore.processingInstruction (target, data);
     super.processingInstruction (target, data);
   }
 
   @Override
   public void skippedEntity (final String name) throws SAXException
   {
-    core.skippedEntity (name);
+    m_aCore.skippedEntity (name);
     super.skippedEntity (name);
   }
 }

@@ -25,10 +25,10 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.iso_relax.verifier.Verifier;
+import org.iso_relax.verifier.IVerifier;
+import org.iso_relax.verifier.IVerifierFilter;
+import org.iso_relax.verifier.IVerifierHandler;
 import org.iso_relax.verifier.VerifierConfigurationException;
-import org.iso_relax.verifier.VerifierFilter;
-import org.iso_relax.verifier.VerifierHandler;
 import org.w3c.dom.Node;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
@@ -40,7 +40,7 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 
 /**
- * Partial implementation of {@link Verifier}.
+ * Partial implementation of {@link IVerifier}.
  * <p>
  * This class is useful as the base class of the verifier implementation.
  * <p>
@@ -52,11 +52,25 @@ import org.xml.sax.XMLReader;
  * @version $Id: VerifierImpl.java,v 1.4 2003/05/30 23:46:33 kkawa Exp $
  * @author <a href="mailto:kohsuke.kawaguchi@sun.com">Kohsuke KAWAGUCHI</a>
  */
-public abstract class VerifierImpl implements Verifier
+public abstract class Verifier implements IVerifier
 {
-  protected XMLReader reader;
+  protected XMLReader m_aReader;
+  // default error handler must not report any error.
+  protected ErrorHandler m_aErrorHandler = new ErrorHandler ()
+  {
+    public void warning (final SAXParseException e)
+    {}
 
-  protected VerifierImpl () throws VerifierConfigurationException
+    public void error (final SAXParseException e)
+    {}
+
+    public void fatalError (final SAXParseException e)
+    {}
+  };
+  protected EntityResolver m_aEntityResolver;
+  private IVerifierFilter m_aFilter;
+
+  protected Verifier () throws VerifierConfigurationException
   {
     prepareXMLReader ();
   }
@@ -71,7 +85,7 @@ public abstract class VerifierImpl implements Verifier
     {
       final SAXParserFactory factory = SAXParserFactory.newInstance ();
       factory.setNamespaceAware (true);
-      reader = factory.newSAXParser ().getXMLReader ();
+      m_aReader = factory.newSAXParser ().getXMLReader ();
     }
     catch (final SAXException e)
     {
@@ -113,29 +127,14 @@ public abstract class VerifierImpl implements Verifier
     throw new SAXNotRecognizedException (property);
   }
 
-  // default error handler must not report any error.
-  protected ErrorHandler errorHandler = new ErrorHandler ()
-  {
-    public void warning (final SAXParseException e)
-    {}
-
-    public void error (final SAXParseException e)
-    {}
-
-    public void fatalError (final SAXParseException e)
-    {}
-  };
-
   public void setErrorHandler (final ErrorHandler handler)
   {
-    this.errorHandler = handler;
+    this.m_aErrorHandler = handler;
   }
-
-  protected EntityResolver entityResolver;
 
   public void setEntityResolver (final EntityResolver resolver)
   {
-    this.entityResolver = resolver;
+    this.m_aEntityResolver = resolver;
   }
 
   public boolean verify (final String uri) throws SAXException, IOException
@@ -146,13 +145,13 @@ public abstract class VerifierImpl implements Verifier
   public boolean verify (final InputSource source) throws SAXException, IOException
   {
 
-    final VerifierHandler handler = getVerifierHandler ();
+    final IVerifierHandler handler = getVerifierHandler ();
 
-    reader.setErrorHandler (errorHandler);
-    if (entityResolver != null)
-      reader.setEntityResolver (entityResolver);
-    reader.setContentHandler (handler);
-    reader.parse (source);
+    m_aReader.setErrorHandler (m_aErrorHandler);
+    if (m_aEntityResolver != null)
+      m_aReader.setEntityResolver (m_aEntityResolver);
+    m_aReader.setContentHandler (handler);
+    m_aReader.parse (source);
 
     return handler.isValid ();
   }
@@ -172,20 +171,18 @@ public abstract class VerifierImpl implements Verifier
     final SAXEventGenerator generator = new SAXEventGenerator (node);
     // generate startDocument/endDocument events
     generator.setDocumentEmulation (true);
-    generator.setErrorHandler (errorHandler);
-    final VerifierHandler handler = getVerifierHandler ();
+    generator.setErrorHandler (m_aErrorHandler);
+    final IVerifierHandler handler = getVerifierHandler ();
     generator.makeEvent (handler);
     return handler.isValid ();
   }
 
-  public abstract VerifierHandler getVerifierHandler () throws SAXException;
+  public abstract IVerifierHandler getVerifierHandler () throws SAXException;
 
-  private VerifierFilter filter;
-
-  public VerifierFilter getVerifierFilter () throws SAXException
+  public IVerifierFilter getVerifierFilter () throws SAXException
   {
-    if (filter == null)
-      filter = new VerifierFilterImpl (this);
-    return filter;
+    if (m_aFilter == null)
+      m_aFilter = new VerifierFilter (this);
+    return m_aFilter;
   }
 }

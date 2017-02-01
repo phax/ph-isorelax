@@ -19,6 +19,9 @@
  */
 package jp.gr.xml.relax.dom;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Comment;
@@ -46,7 +49,7 @@ import jp.gr.xml.relax.xml.UXML;
 public class XMLMaker implements IDOMVisitor
 {
   protected StringBuilder buffer_;
-  protected String encoding_ = "UTF-8";
+  protected Charset encoding_ = StandardCharsets.UTF_8;
   protected boolean dom2_ = false;
   protected boolean expandEntityReference_ = false;
   protected boolean emptyElementTag_ = false;
@@ -56,7 +59,7 @@ public class XMLMaker implements IDOMVisitor
     buffer_ = new StringBuilder ();
   }
 
-  public void setEncoding (final String encoding)
+  public void setEncoding (final Charset encoding)
   {
     encoding_ = encoding;
   }
@@ -171,7 +174,7 @@ public class XMLMaker implements IDOMVisitor
 
   public boolean enter (final Document doc)
   {
-    buffer_.append ("<?xml version=\"1.0\" encoding=\"").append (encoding_).append ("\" ?>\n");
+    buffer_.append ("<?xml version=\"1.0\" encoding=\"").append (encoding_.name ()).append ("\" ?>\n");
     return (true);
   }
 

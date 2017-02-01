@@ -64,101 +64,93 @@ import jp.gr.xml.relax.sax.LexicalHandlerBase;
  */
 public class SAXEventGenerator implements IDOMVisitor
 {
-  private final Node root_;
-  private boolean needDocumentEmulation_ = true;
+  private final Node m_aRoot;
+  private boolean m_bNeedDocumentEmulation = true;
 
-  private String systemID_;
-  private String publicID_;
-  private DTDHandler dtd_;
-  private ContentHandler content_;
-  private DeclHandler decl_;
-  private LexicalHandler lexical_;
-  private ErrorHandler error_;
-  private final NamespaceSupport namespace_ = new NamespaceSupport ();
+  private String m_sSystemID;
+  private String m_sPublicID;
+  private DTDHandler m_aDTD;
+  private ContentHandler m_aContent;
+  private DeclHandler m_aDecl;
+  private LexicalHandler m_aLexical;
+  private ErrorHandler m_aError;
+  private final NamespaceSupport m_aNamespace = new NamespaceSupport ();
 
   public SAXEventGenerator (final Node node)
   {
-    root_ = node;
+    m_aRoot = node;
 
     final DefaultHandler handler = new DefaultHandler ();
-    dtd_ = handler;
-    content_ = handler;
-    error_ = handler;
-    lexical_ = new LexicalHandlerBase ();
-    decl_ = new DeclHandlerBase ();
+    m_aDTD = handler;
+    m_aContent = handler;
+    m_aError = handler;
+    m_aLexical = new LexicalHandlerBase ();
+    m_aDecl = new DeclHandlerBase ();
   }
 
   public void setSystemID (final String id)
   {
-    systemID_ = id;
+    m_sSystemID = id;
   }
 
   public void setPublicID (final String id)
   {
-    publicID_ = id;
+    m_sPublicID = id;
   }
 
   public void setDocumentEmulation (final boolean emulate)
   {
-    needDocumentEmulation_ = emulate;
+    m_bNeedDocumentEmulation = emulate;
   }
 
   public void setDTDHandler (final DTDHandler dtd)
   {
-    dtd_ = dtd;
+    m_aDTD = dtd;
   }
 
   public void setContentHandler (final ContentHandler content)
   {
-    content_ = content;
+    m_aContent = content;
   }
 
   public void setLexicalHandler (final LexicalHandler lexical)
   {
-    lexical_ = lexical;
+    m_aLexical = lexical;
   }
 
   public void setDeclHandler (final DeclHandler decl)
   {
-    decl_ = decl;
+    m_aDecl = decl;
   }
 
   public void setErrorHandler (final ErrorHandler error)
   {
-    error_ = error;
+    m_aError = error;
   }
 
   public void makeEvent () throws SAXException
   {
     try
     {
-      if (!(root_ instanceof Document) && needDocumentEmulation_)
+      if (!(m_aRoot instanceof Document) && m_bNeedDocumentEmulation)
       {
         emulateStartDocument ();
-        UDOMVisitor.traverse (root_, this);
+        UDOMVisitor.traverse (m_aRoot, this);
         emulateEndDocument ();
       }
       else
       {
-        UDOMVisitor.traverse (root_, this);
+        UDOMVisitor.traverse (m_aRoot, this);
       }
     }
     catch (final DOMVisitorException e)
     {
-      final Exception cause = e.getCauseException ();
+      final Throwable cause = e.getCause ();
       if (cause == null)
-      {
-        throw (new SAXException (e.getMessage ()));
-      }
-      else
-        if (cause instanceof SAXException)
-        {
-          throw ((SAXException) cause);
-        }
-        else
-        {
-          throw (new SAXException (e.getMessage ()));
-        }
+        throw new SAXException (e.getMessage ());
+      if (cause instanceof SAXException)
+        throw (SAXException) cause;
+      throw new SAXException (e.getMessage ());
     }
   }
 
@@ -173,7 +165,7 @@ public class SAXEventGenerator implements IDOMVisitor
     try
     {
       _handleLocator ();
-      content_.startDocument ();
+      m_aContent.startDocument ();
     }
     catch (final SAXException e)
     {
@@ -185,7 +177,7 @@ public class SAXEventGenerator implements IDOMVisitor
   {
     try
     {
-      content_.endDocument ();
+      m_aContent.endDocument ();
     }
     catch (final SAXException e)
     {
@@ -197,7 +189,7 @@ public class SAXEventGenerator implements IDOMVisitor
   {
     try
     {
-      namespace_.pushContext ();
+      m_aNamespace.pushContext ();
       String namespaceURI = element.getNamespaceURI ();
       if (namespaceURI == null)
       {
@@ -236,13 +228,13 @@ public class SAXEventGenerator implements IDOMVisitor
           {
             prefix = attrQName.substring (index + 1);
           }
-          if (!namespace_.declarePrefix (prefix, attrValue))
+          if (!m_aNamespace.declarePrefix (prefix, attrValue))
           {
             _errorReport ("bad prefix = " + prefix);
           }
           else
           {
-            content_.startPrefixMapping (prefix, attrValue);
+            m_aContent.startPrefixMapping (prefix, attrValue);
           }
         }
         else
@@ -250,7 +242,7 @@ public class SAXEventGenerator implements IDOMVisitor
           attrs.addAttribute (attrNamespaceURI, attrLocalName, attrQName, "CDATA", attrValue);
         }
       }
-      content_.startElement (namespaceURI, localName, qName, attrs);
+      m_aContent.startElement (namespaceURI, localName, qName, attrs);
     }
     catch (final SAXException e)
     {
@@ -264,7 +256,7 @@ public class SAXEventGenerator implements IDOMVisitor
     try
     {
       final String data = text.getData ();
-      content_.characters (data.toCharArray (), 0, data.length ());
+      m_aContent.characters (data.toCharArray (), 0, data.length ());
     }
     catch (final SAXException e)
     {
@@ -277,10 +269,10 @@ public class SAXEventGenerator implements IDOMVisitor
   {
     try
     {
-      lexical_.startCDATA ();
+      m_aLexical.startCDATA ();
       final String data = cdata.getData ();
-      content_.characters (data.toCharArray (), 0, data.length ());
-      lexical_.endCDATA ();
+      m_aContent.characters (data.toCharArray (), 0, data.length ());
+      m_aLexical.endCDATA ();
     }
     catch (final SAXException e)
     {
@@ -293,7 +285,7 @@ public class SAXEventGenerator implements IDOMVisitor
   {
     try
     {
-      lexical_.startEntity (entityRef.getNodeName ());
+      m_aLexical.startEntity (entityRef.getNodeName ());
     }
     catch (final SAXException e)
     {
@@ -306,7 +298,7 @@ public class SAXEventGenerator implements IDOMVisitor
   {
     try
     {
-      content_.processingInstruction (pi.getTarget (), pi.getData ());
+      m_aContent.processingInstruction (pi.getTarget (), pi.getData ());
     }
     catch (final SAXException e)
     {
@@ -320,7 +312,7 @@ public class SAXEventGenerator implements IDOMVisitor
     try
     {
       final String data = comment.getData ();
-      lexical_.comment (data.toCharArray (), 0, data.length ());
+      m_aLexical.comment (data.toCharArray (), 0, data.length ());
     }
     catch (final SAXException e)
     {
@@ -334,7 +326,7 @@ public class SAXEventGenerator implements IDOMVisitor
     try
     {
       _handleLocator ();
-      content_.startDocument ();
+      m_aContent.startDocument ();
       _handleDoctype (doc.getDoctype ());
     }
     catch (final SAXException e)
@@ -346,7 +338,7 @@ public class SAXEventGenerator implements IDOMVisitor
 
   private void _handleLocator ()
   {
-    if (systemID_ == null && publicID_ == null)
+    if (m_sSystemID == null && m_sPublicID == null)
     {
       return;
     }
@@ -356,11 +348,11 @@ public class SAXEventGenerator implements IDOMVisitor
   private void _locatorEvent ()
   {
     final LocatorImpl locator = new LocatorImpl ();
-    locator.setSystemId (systemID_);
-    locator.setPublicId (publicID_);
+    locator.setSystemId (m_sSystemID);
+    locator.setPublicId (m_sPublicID);
     locator.setLineNumber (-1);
     locator.setColumnNumber (-1);
-    content_.setDocumentLocator (locator);
+    m_aContent.setDocumentLocator (locator);
   }
 
   private void _handleDoctype (final DocumentType doctype)
@@ -376,16 +368,16 @@ public class SAXEventGenerator implements IDOMVisitor
       final String internalSubset = doctype.getInternalSubset ();
       if (systemID != null)
       {
-        lexical_.startDTD (doctype.getName (), publicID, systemID);
+        m_aLexical.startDTD (doctype.getName (), publicID, systemID);
         if (internalSubset == null)
         {
-          lexical_.endDTD ();
+          m_aLexical.endDTD ();
           _handleEntities (doctype);
         }
         else
         {
           _handleEntities (doctype);
-          lexical_.endDTD ();
+          m_aLexical.endDTD ();
         }
       }
       else
@@ -427,7 +419,7 @@ public class SAXEventGenerator implements IDOMVisitor
         final Notation notation = (Notation) notations.item (i);
         final String publicID = notation.getPublicId ();
         final String systemID = notation.getSystemId ();
-        dtd_.notationDecl (notation.getNodeName (), publicID, systemID);
+        m_aDTD.notationDecl (notation.getNodeName (), publicID, systemID);
       }
     }
     catch (final SAXException e)
@@ -445,11 +437,11 @@ public class SAXEventGenerator implements IDOMVisitor
     {
       if (notationName == null)
       {
-        decl_.externalEntityDecl (name, publicID, systemID);
+        m_aDecl.externalEntityDecl (name, publicID, systemID);
       }
       else
       {
-        dtd_.unparsedEntityDecl (name, publicID, systemID, notationName);
+        m_aDTD.unparsedEntityDecl (name, publicID, systemID, notationName);
       }
     }
     catch (final SAXException e)
@@ -462,7 +454,7 @@ public class SAXEventGenerator implements IDOMVisitor
   {
     try
     {
-      decl_.internalEntityDecl (entity.getNodeName (), UDOM.getXMLText (entity));
+      m_aDecl.internalEntityDecl (entity.getNodeName (), UDOM.getXMLText (entity));
     }
     catch (final SAXException e)
     {
@@ -488,12 +480,12 @@ public class SAXEventGenerator implements IDOMVisitor
       final String qName = element.getTagName ();
       if (localName == null)
         localName = qName;
-      content_.endElement (namespaceURI, localName, qName);
+      m_aContent.endElement (namespaceURI, localName, qName);
 
-      for (final Enumeration <?> e = namespace_.getDeclaredPrefixes (); e.hasMoreElements ();)
-        content_.endPrefixMapping ((String) e.nextElement ());
+      for (final Enumeration <?> e = m_aNamespace.getDeclaredPrefixes (); e.hasMoreElements ();)
+        m_aContent.endPrefixMapping ((String) e.nextElement ());
 
-      namespace_.popContext ();
+      m_aNamespace.popContext ();
     }
     catch (final SAXException e)
     {
@@ -505,7 +497,7 @@ public class SAXEventGenerator implements IDOMVisitor
   {
     try
     {
-      lexical_.endEntity (entityRef.getNodeName ());
+      m_aLexical.endEntity (entityRef.getNodeName ());
     }
     catch (final SAXException e)
     {
@@ -517,7 +509,7 @@ public class SAXEventGenerator implements IDOMVisitor
   {
     try
     {
-      content_.endDocument ();
+      m_aContent.endDocument ();
     }
     catch (final SAXException e)
     {
@@ -527,7 +519,7 @@ public class SAXEventGenerator implements IDOMVisitor
 
   private void _errorReport (final String message) throws DOMVisitorException
   {
-    _errorReport (new SAXParseException (message, publicID_, systemID_, -1, -1));
+    _errorReport (new SAXParseException (message, m_sPublicID, m_sSystemID, -1, -1));
   }
 
   private void _errorReport (final SAXException e) throws DOMVisitorException
@@ -541,9 +533,9 @@ public class SAXEventGenerator implements IDOMVisitor
       }
       else
       {
-        parseException = new SAXParseException (e.getMessage (), publicID_, systemID_, -1, -1, e);
+        parseException = new SAXParseException (e.getMessage (), m_sPublicID, m_sSystemID, -1, -1, e);
       }
-      error_.fatalError (parseException);
+      m_aError.fatalError (parseException);
       throw new DOMVisitorException (e);
     }
     catch (final SAXException ee)

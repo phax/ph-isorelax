@@ -43,6 +43,9 @@ import org.w3c.dom.Text;
  */
 public final class UDOMVisitor
 {
+  private UDOMVisitor ()
+  {}
+
   public static void traverse (final Node node, final IDOMVisitor visitor) throws DOMVisitorException
   {
     boolean doContinue;

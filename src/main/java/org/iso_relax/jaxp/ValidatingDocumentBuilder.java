@@ -25,7 +25,7 @@ import java.io.InputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 
-import org.iso_relax.verifier.Verifier;
+import org.iso_relax.verifier.IVerifier;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.xml.sax.EntityResolver;
@@ -40,8 +40,8 @@ import org.xml.sax.SAXException;
  */
 class ValidatingDocumentBuilder extends DocumentBuilder
 {
-  protected DocumentBuilder _WrappedBuilder;
-  protected Verifier _Verifier;
+  protected DocumentBuilder m_aWrappedBuilder;
+  protected IVerifier m_aVerifier;
 
   /**
    * creates a new instance with an internal DocumentBuilder and Schema.
@@ -51,10 +51,10 @@ class ValidatingDocumentBuilder extends DocumentBuilder
    * @param verifier
    *        verifier.
    */
-  public ValidatingDocumentBuilder (final DocumentBuilder wrapped, final Verifier verifier)
+  public ValidatingDocumentBuilder (final DocumentBuilder wrapped, final IVerifier verifier)
   {
-    _WrappedBuilder = wrapped;
-    _Verifier = verifier;
+    m_aWrappedBuilder = wrapped;
+    m_aVerifier = verifier;
   }
 
   /**
@@ -63,7 +63,7 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   @Override
   public Document parse (final InputSource inputsource) throws SAXException, IOException
   {
-    return verify (_WrappedBuilder.parse (inputsource));
+    return verify (m_aWrappedBuilder.parse (inputsource));
   }
 
   /**
@@ -72,7 +72,7 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   @Override
   public Document parse (final File file) throws SAXException, IOException
   {
-    return verify (_WrappedBuilder.parse (file));
+    return verify (m_aWrappedBuilder.parse (file));
   }
 
   /**
@@ -81,7 +81,7 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   @Override
   public Document parse (final InputStream strm) throws SAXException, IOException
   {
-    return verify (_WrappedBuilder.parse (strm));
+    return verify (m_aWrappedBuilder.parse (strm));
   }
 
   /**
@@ -91,7 +91,7 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   @Override
   public Document parse (final InputStream strm, final String systemId) throws SAXException, IOException
   {
-    return verify (_WrappedBuilder.parse (strm, systemId));
+    return verify (m_aWrappedBuilder.parse (strm, systemId));
   }
 
   /**
@@ -100,7 +100,7 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   @Override
   public Document parse (final String url) throws SAXException, IOException
   {
-    return verify (_WrappedBuilder.parse (url));
+    return verify (m_aWrappedBuilder.parse (url));
   }
 
   /**
@@ -109,7 +109,7 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   @Override
   public boolean isNamespaceAware ()
   {
-    return _WrappedBuilder.isNamespaceAware ();
+    return m_aWrappedBuilder.isNamespaceAware ();
   }
 
   /**
@@ -127,8 +127,8 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   @Override
   public void setEntityResolver (final EntityResolver entityresolver)
   {
-    _WrappedBuilder.setEntityResolver (entityresolver);
-    _Verifier.setEntityResolver (entityresolver);
+    m_aWrappedBuilder.setEntityResolver (entityresolver);
+    m_aVerifier.setEntityResolver (entityresolver);
   }
 
   /**
@@ -137,8 +137,8 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   @Override
   public void setErrorHandler (final ErrorHandler errorhandler)
   {
-    _WrappedBuilder.setErrorHandler (errorhandler);
-    _Verifier.setErrorHandler (errorhandler);
+    m_aWrappedBuilder.setErrorHandler (errorhandler);
+    m_aVerifier.setErrorHandler (errorhandler);
   }
 
   /**
@@ -147,7 +147,7 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   @Override
   public Document newDocument ()
   {
-    return _WrappedBuilder.newDocument ();
+    return m_aWrappedBuilder.newDocument ();
   }
 
   /**
@@ -156,12 +156,12 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   @Override
   public DOMImplementation getDOMImplementation ()
   {
-    return _WrappedBuilder.getDOMImplementation ();
+    return m_aWrappedBuilder.getDOMImplementation ();
   }
 
   private Document verify (final Document dom) throws SAXException
   {
-    if (_Verifier.verify (dom))
+    if (m_aVerifier.verify (dom))
       return dom;
     throw new SAXException ("the document is invalid, but the ErrorHandler does not throw any Exception.");
   }

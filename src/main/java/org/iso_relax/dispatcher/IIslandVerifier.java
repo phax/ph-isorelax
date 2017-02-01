@@ -29,13 +29,13 @@ import org.xml.sax.SAXException;
  *         Given)</a>, <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  * @version 1.1
  */
-public interface IslandVerifier extends ContentHandler
+public interface IIslandVerifier extends ContentHandler
 {
   /**
    * Dispatcher passes itself to IslandVerifier by calling this method from
    * Dispatcher.switchVerifier method.
    */
-  void setDispatcher (Dispatcher disp);
+  void setDispatcher (IDispatcher disp);
 
   /**
    * substitute for endDocument event. This method is called after endElement
@@ -47,7 +47,7 @@ public interface IslandVerifier extends ContentHandler
    *         responsibility to report an error. The callee may also recover from
    *         error. Never return null.
    */
-  public ElementDecl [] endIsland () throws SAXException;
+  public IElementDecl [] endIsland () throws SAXException;
 
   /**
    * this method is called after verification of the child island is completed,
@@ -60,5 +60,5 @@ public interface IslandVerifier extends ContentHandler
    *        island. when every elementDecl was failed, then an empty array is
    *        passed.
    */
-  public void endChildIsland (String uri, ElementDecl assignedDecls[]) throws SAXException;
+  public void endChildIsland (String uri, IElementDecl assignedDecls[]) throws SAXException;
 }
