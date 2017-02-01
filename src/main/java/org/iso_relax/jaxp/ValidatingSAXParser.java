@@ -26,7 +26,7 @@ import java.io.InputStream;
 
 import javax.xml.parsers.SAXParser;
 
-import org.iso_relax.verifier.IVerifier;
+import org.iso_relax.verifier.Verifier;
 import org.xml.sax.HandlerBase;
 import org.xml.sax.InputSource;
 import org.xml.sax.Parser;
@@ -47,7 +47,7 @@ import org.xml.sax.helpers.DefaultHandler;
 class ValidatingSAXParser extends SAXParser
 {
   protected SAXParser m_aWrappedParser;
-  protected IVerifier m_aVerifier;
+  protected Verifier m_aVerifier;
 
   /**
    * creates a new instance with an internal SAXParser and Schema.
@@ -57,7 +57,7 @@ class ValidatingSAXParser extends SAXParser
    * @param verifier
    *        verifier.
    */
-  public ValidatingSAXParser (final SAXParser wrapped, final IVerifier verifier)
+  public ValidatingSAXParser (final SAXParser wrapped, final Verifier verifier)
   {
     m_aWrappedParser = wrapped;
     m_aVerifier = verifier;

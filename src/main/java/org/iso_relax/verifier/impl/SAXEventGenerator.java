@@ -150,7 +150,7 @@ public class SAXEventGenerator implements IDOMVisitor
         throw new SAXException (e.getMessage ());
       if (cause instanceof SAXException)
         throw (SAXException) cause;
-      throw new SAXException (e.getMessage ());
+      throw new SAXException (e);
     }
   }
 

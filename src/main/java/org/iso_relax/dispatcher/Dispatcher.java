@@ -30,7 +30,7 @@ import org.xml.sax.XMLReader;
  *         Given)</a>, <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  * @version 1.1
  */
-public interface IDispatcher
+public interface Dispatcher
 {
   /**
    * configure XMLReader to use this Dispatcher as a ContentHandler.
@@ -41,7 +41,7 @@ public interface IDispatcher
    * switches to the child IslandVerifier. this method can only be called during
    * startElement method.
    */
-  void switchVerifier (IIslandVerifier newVerifier) throws SAXException;
+  void switchVerifier (IslandVerifier newVerifier) throws SAXException;
 
   /**
    * sets application-implemented ErrorHandler, which will receive all
@@ -57,7 +57,7 @@ public interface IDispatcher
   ErrorHandler getErrorHandler ();
 
   /** get ShcmeaProvider object which is attached to this Dispatcher. */
-  ISchemaProvider getSchemaProvider ();
+  SchemaProvider getSchemaProvider ();
 
   public static class NotationDecl
   {

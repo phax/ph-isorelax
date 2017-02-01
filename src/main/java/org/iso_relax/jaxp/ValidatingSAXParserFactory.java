@@ -23,7 +23,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.iso_relax.verifier.ISchema;
+import org.iso_relax.verifier.Schema;
 import org.iso_relax.verifier.VerifierConfigurationException;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
@@ -37,7 +37,7 @@ import org.xml.sax.SAXNotSupportedException;
 public class ValidatingSAXParserFactory extends SAXParserFactory
 {
   protected SAXParserFactory m_aWrappedFactory;
-  protected ISchema m_aSchema;
+  protected Schema m_aSchema;
 
   private boolean m_bValidation = true;
 
@@ -47,7 +47,7 @@ public class ValidatingSAXParserFactory extends SAXParserFactory
    * @param schema
    *        the compiled Schema object. It can not be null.
    */
-  public ValidatingSAXParserFactory (final ISchema schema)
+  public ValidatingSAXParserFactory (final Schema schema)
   {
     this (SAXParserFactory.newInstance (), schema);
   }
@@ -60,7 +60,7 @@ public class ValidatingSAXParserFactory extends SAXParserFactory
    * @param schema
    *        compiled schema.
    */
-  public ValidatingSAXParserFactory (final SAXParserFactory wrapped, final ISchema schema)
+  public ValidatingSAXParserFactory (final SAXParserFactory wrapped, final Schema schema)
   {
     m_aWrappedFactory = wrapped;
     m_aSchema = schema;

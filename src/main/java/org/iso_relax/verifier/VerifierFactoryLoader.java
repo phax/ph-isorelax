@@ -17,20 +17,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.iso_relax.dispatcher;
+package org.iso_relax.verifier;
 
 /**
- * IslandSchemaReader is responsible for parsing IslandSchema.
+ * A class that provides information about the verifier implementation.
+ * <p>
+ * Implementations of this interface are discovered through
+ * <code>META-INF/services</code>, just like JAXP. This object then provides
+ * VerifierFactory implementation for the specified schema language.
  *
- * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
+ * @author <a href="mailto:kohsukekawaguchi@yahoo.com">Kohsuke KAWAGUCHI</a>
  */
-public interface IIslandSchemaReader extends org.xml.sax.ContentHandler
+public interface VerifierFactoryLoader
 {
   /**
-   * gets parsed schema. this method is called after parsing is finished.
-   *
-   * @return return null if parsing was failed (for example by an error in the
-   *         schema file).
+   * returns a VerifierFactory that supports the specified schema language, or
+   * returns null if it's not supported.
    */
-  IIslandSchema getSchema ();
+  VerifierFactory createFactory (String schemaLanguage);
 }

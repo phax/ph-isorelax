@@ -19,9 +19,9 @@
  */
 package org.iso_relax.verifier.impl;
 
-import org.iso_relax.verifier.IVerifier;
-import org.iso_relax.verifier.IVerifierFilter;
-import org.iso_relax.verifier.IVerifierHandler;
+import org.iso_relax.verifier.Verifier;
+import org.iso_relax.verifier.VerifierFilter;
+import org.iso_relax.verifier.VerifierHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
@@ -30,12 +30,12 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
 
 /**
- * plain vanilla {@link IVerifierFilter} implementation.
+ * plain vanilla {@link VerifierFilterImpl} implementation.
  * <p>
  * A verifier implementation can use this class to support VerifierFilter
  * functionality.
  * <p>
- * To use this class, implement the {@link IVerifier#getVerifierFilter()} method
+ * To use this class, implement the {@link Verifier#getVerifierFilter()} method
  * as follows:
  *
  * <pre>
@@ -51,14 +51,14 @@ import org.xml.sax.helpers.XMLFilterImpl;
  * @version $Id: VerifierFilterImpl.java,v 1.5 2003/05/30 23:46:33 kkawa Exp $
  * @author <a href="mailto:kohsuke.kawaguchi@sun.com">Kohsuke KAWAGUCHI</a>
  */
-public class VerifierFilter extends XMLFilterImpl implements IVerifierFilter
+public class VerifierFilterImpl extends XMLFilterImpl implements VerifierFilter
 {
-  private final IVerifier m_aVerifier;
-  private final IVerifierHandler m_aCore;
+  private final Verifier m_aVerifier;
+  private final VerifierHandler m_aCore;
 
-  public VerifierFilter (final IVerifier _verifier) throws SAXException
+  public VerifierFilterImpl (final Verifier aVerifier) throws SAXException
   {
-    m_aVerifier = _verifier;
+    m_aVerifier = aVerifier;
     m_aCore = m_aVerifier.getVerifierHandler ();
   }
 

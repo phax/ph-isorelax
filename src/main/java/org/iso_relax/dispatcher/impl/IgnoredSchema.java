@@ -23,12 +23,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.iso_relax.dispatcher.IAttributesDecl;
-import org.iso_relax.dispatcher.IAttributesVerifier;
-import org.iso_relax.dispatcher.IElementDecl;
-import org.iso_relax.dispatcher.IIslandSchema;
-import org.iso_relax.dispatcher.IIslandVerifier;
-import org.iso_relax.dispatcher.ISchemaProvider;
+import org.iso_relax.dispatcher.AttributesDecl;
+import org.iso_relax.dispatcher.AttributesVerifier;
+import org.iso_relax.dispatcher.ElementDecl;
+import org.iso_relax.dispatcher.IslandSchema;
+import org.iso_relax.dispatcher.IslandVerifier;
+import org.iso_relax.dispatcher.SchemaProvider;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXNotRecognizedException;
 
@@ -38,9 +38,9 @@ import org.xml.sax.SAXNotRecognizedException;
  *
  * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  */
-public class IgnoredSchema implements IIslandSchema
+public class IgnoredSchema implements IslandSchema
 {
-  private static final IElementDecl [] s_aElemDecl = new IElementDecl [] { new IElementDecl ()
+  private static final ElementDecl [] s_aElemDecl = new ElementDecl [] { new ElementDecl ()
   {
     public String getName ()
     {
@@ -58,7 +58,7 @@ public class IgnoredSchema implements IIslandSchema
     }
   } };
 
-  private static final IAttributesDecl [] s_aAttrDecl = new IAttributesDecl [] { new IAttributesDecl ()
+  private static final AttributesDecl [] s_aAttrDecl = new AttributesDecl [] { new AttributesDecl ()
   {
     public String getName ()
     {
@@ -76,50 +76,50 @@ public class IgnoredSchema implements IIslandSchema
     }
   } };
 
-  public IElementDecl getElementDeclByName (final String name)
+  public ElementDecl getElementDeclByName (final String name)
   {
     return s_aElemDecl[0];
   }
 
-  public IElementDecl [] getElementDecls ()
+  public ElementDecl [] getElementDecls ()
   {
     return s_aElemDecl;
   }
 
-  public Iterator <IElementDecl> iterateElementDecls ()
+  public Iterator <ElementDecl> iterateElementDecls ()
   {
-    final List <IElementDecl> vec = new ArrayList <> ();
+    final List <ElementDecl> vec = new ArrayList <> ();
     vec.add (s_aElemDecl[0]);
     return vec.iterator ();
   }
 
-  public IIslandVerifier createNewVerifier (final String namespaceURI, final IElementDecl [] rules)
+  public IslandVerifier createNewVerifier (final String namespaceURI, final ElementDecl [] rules)
   {
     return new IgnoreVerifier (namespaceURI, rules);
   }
 
-  public IAttributesDecl getAttributesDeclByName (final String name)
+  public AttributesDecl getAttributesDeclByName (final String name)
   {
     return s_aAttrDecl[0];
   }
 
-  public IAttributesDecl [] getAttributesDecls ()
+  public AttributesDecl [] getAttributesDecls ()
   {
     return s_aAttrDecl;
   }
 
-  public Iterator <IAttributesDecl> iterateAttributesDecls ()
+  public Iterator <AttributesDecl> iterateAttributesDecls ()
   {
-    final List <IAttributesDecl> vec = new ArrayList <> ();
+    final List <AttributesDecl> vec = new ArrayList <> ();
     vec.add (s_aAttrDecl[0]);
     return vec.iterator ();
   }
 
-  public IAttributesVerifier createNewAttributesVerifier (final String namespaceURI, final IAttributesDecl [] decls)
+  public AttributesVerifier createNewAttributesVerifier (final String namespaceURI, final AttributesDecl [] decls)
   {
     throw new UnsupportedOperationException ("not implemented yet");
   }
 
-  public void bind (final ISchemaProvider provider, final ErrorHandler handler)
+  public void bind (final SchemaProvider provider, final ErrorHandler handler)
   {}
 }

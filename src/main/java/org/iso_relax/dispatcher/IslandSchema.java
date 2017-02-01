@@ -29,7 +29,7 @@ import org.xml.sax.SAXException;
  *
  * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  */
-public interface IIslandSchema
+public interface IslandSchema
 {
   /**
    * creates a new IslandVerifier instance that is going to validate one island.
@@ -41,33 +41,33 @@ public interface IIslandSchema
    *        set of ElementDecl objects that newly created verifier shall
    *        validate.
    */
-  IIslandVerifier createNewVerifier (String namespaceURI, IElementDecl [] elementDecls);
+  IslandVerifier createNewVerifier (String namespaceURI, ElementDecl [] elementDecls);
 
   /**
    * gets exported elementDecl object that has specified name.
    *
    * @return null if no elementDecl is exported under the given name.
    */
-  IElementDecl getElementDeclByName (String name);
+  ElementDecl getElementDeclByName (String name);
 
   /** iterates all exported elementDecl objects. */
-  Iterator <IElementDecl> iterateElementDecls ();
+  Iterator <ElementDecl> iterateElementDecls ();
 
   /** returns all exported elementDecl objects at once. */
-  IElementDecl [] getElementDecls ();
+  ElementDecl [] getElementDecls ();
 
   /**
    * gets exported AttributesDecl object that has specified name.
    *
    * @return null if no AttributesDecl is exported under the given name.
    */
-  IAttributesDecl getAttributesDeclByName (String name);
+  AttributesDecl getAttributesDeclByName (String name);
 
   /** iterates all exported attributesDecl objects. */
-  Iterator <IAttributesDecl> iterateAttributesDecls ();
+  Iterator <AttributesDecl> iterateAttributesDecls ();
 
   /** returns all exported attributesDecl objects at once. */
-  IAttributesDecl [] getAttributesDecls ();
+  AttributesDecl [] getAttributesDecls ();
 
   /**
    * creates a new AttributesVerifier instance that is going to validate
@@ -80,7 +80,7 @@ public interface IIslandSchema
    *        set of AttributesDecl objects that newly created verifier shall
    *        validate.
    */
-  IAttributesVerifier createNewAttributesVerifier (String namespaceURI, IAttributesDecl [] decls);
+  AttributesVerifier createNewAttributesVerifier (String namespaceURI, AttributesDecl [] decls);
 
   /**
    * binds references to imported elementDecls by using given provider. this
@@ -89,5 +89,5 @@ public interface IIslandSchema
    * @exception SAXException
    *            any error has to be reported to ErrorHandler first.
    */
-  void bind (ISchemaProvider provider, ErrorHandler errorHandler) throws SAXException;
+  void bind (SchemaProvider provider, ErrorHandler errorHandler) throws SAXException;
 }

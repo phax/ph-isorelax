@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.iso_relax.dispatcher.IIslandSchema;
-import org.iso_relax.dispatcher.ISchemaProvider;
+import org.iso_relax.dispatcher.IslandSchema;
+import org.iso_relax.dispatcher.SchemaProvider;
 
 /**
  * default implementation of SchemaProvider. Applications can use this class as
@@ -32,24 +32,24 @@ import org.iso_relax.dispatcher.ISchemaProvider;
  *
  * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  */
-public abstract class AbstractSchemaProviderImpl implements ISchemaProvider
+public abstract class AbstractSchemaProviderImpl implements SchemaProvider
 {
 
   /** a map from primary namespace to IslandSchema. */
-  protected final Map <String, IIslandSchema> m_aSchemata = new HashMap <> ();
+  protected final Map <String, IslandSchema> m_aSchemata = new HashMap <> ();
 
   /**
    * adds a new IslandSchema. the caller should make sure that the given uri is
    * not defined already.
    */
-  public void addSchema (final String uri, final IIslandSchema s)
+  public void addSchema (final String uri, final IslandSchema s)
   {
     if (m_aSchemata.containsKey (uri))
       throw new IllegalArgumentException ();
     m_aSchemata.put (uri, s);
   }
 
-  public IIslandSchema getSchemaByNamespace (final String uri)
+  public IslandSchema getSchemaByNamespace (final String uri)
   {
     return m_aSchemata.get (uri);
   }
@@ -59,9 +59,9 @@ public abstract class AbstractSchemaProviderImpl implements ISchemaProvider
     return m_aSchemata.keySet ().iterator ();
   }
 
-  public IIslandSchema [] getSchemata ()
+  public IslandSchema [] getSchemata ()
   {
-    final IIslandSchema [] r = new IIslandSchema [m_aSchemata.size ()];
+    final IslandSchema [] r = new IslandSchema [m_aSchemata.size ()];
     m_aSchemata.values ().toArray (r);
     return r;
   }

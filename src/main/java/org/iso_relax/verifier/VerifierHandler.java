@@ -25,7 +25,7 @@ import org.xml.sax.ContentHandler;
  * SAX2 ContentHandler implementation that validates a document.
  * <p>
  * An instance of this interface can be obtained through the
- * {@link IVerifier#getVerifierHandler} method.
+ * {@link Verifier#getVerifierHandler} method.
  * <p>
  * The implementation validates incoming SAX events. The application can check
  * the result by calling the isValid method.
@@ -34,7 +34,7 @@ import org.xml.sax.ContentHandler;
  * @version Feb. 24, 2001
  * @author ASAMI, Tomoharu (asami@zeomtech.com)
  */
-public interface IVerifierHandler extends ContentHandler
+public interface VerifierHandler extends ContentHandler
 {
   /**
    * Checks if the document was valid.
@@ -43,7 +43,7 @@ public interface IVerifierHandler extends ContentHandler
    * <code>endDocument</code> event.
    * <p>
    * If you need to know the error at an earlier moment, you should set an error
-   * handler to {@link IVerifier}.
+   * handler to {@link Verifier}.
    *
    * @return <b>true</b> if the document was valid, <b>false</b> if not.
    * @exception IllegalStateException

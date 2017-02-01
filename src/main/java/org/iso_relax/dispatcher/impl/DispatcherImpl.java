@@ -22,10 +22,10 @@ package org.iso_relax.dispatcher.impl;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import org.iso_relax.dispatcher.IDispatcher;
-import org.iso_relax.dispatcher.IElementDecl;
-import org.iso_relax.dispatcher.IIslandVerifier;
-import org.iso_relax.dispatcher.ISchemaProvider;
+import org.iso_relax.dispatcher.Dispatcher;
+import org.iso_relax.dispatcher.ElementDecl;
+import org.iso_relax.dispatcher.IslandVerifier;
+import org.iso_relax.dispatcher.SchemaProvider;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.DTDHandler;
@@ -40,15 +40,15 @@ import org.xml.sax.helpers.NamespaceSupport;
  *
  * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  */
-public class DispatcherImpl implements IDispatcher
+public class DispatcherImpl implements Dispatcher
 {
   protected static final class Context
   {
-    protected final IIslandVerifier m_aHandler;
+    protected final IslandVerifier m_aHandler;
     protected final int m_nDepth;
     protected final Context m_aPrevious;
 
-    public Context (final IIslandVerifier phandler, final int pdepth, final Context pprevious)
+    public Context (final IslandVerifier phandler, final int pdepth, final Context pprevious)
     {
       m_aHandler = phandler;
       m_nDepth = pdepth;
@@ -107,7 +107,7 @@ public class DispatcherImpl implements IDispatcher
           m_aCurrentHandler.endPrefixMapping ((String) e.nextElement ());
 
         // gets labels which are actually verified.
-        final IElementDecl [] results = m_aCurrentHandler.endIsland ();
+        final ElementDecl [] results = m_aCurrentHandler.endIsland ();
 
         // pop context
         m_nDepth = m_aContextStack.m_nDepth;
@@ -170,10 +170,10 @@ public class DispatcherImpl implements IDispatcher
   protected ErrorHandler m_aErrorHandler;
 
   /** current validating processor which processes this island. */
-  private IIslandVerifier m_aCurrentHandler;
+  private IslandVerifier m_aCurrentHandler;
 
   /** Dispatcher will consult this object about schema information */
-  protected final ISchemaProvider m_aSchema;
+  protected final SchemaProvider m_aSchema;
 
   /** this object passes SAX events to IslandVerifier. */
   protected Transponder m_aTransponder;
@@ -182,7 +182,7 @@ public class DispatcherImpl implements IDispatcher
   protected final Vector <UnparsedEntityDecl> m_aUnparsedEntityDecls = new Vector <> ();
   protected final Vector <NotationDecl> m_aNotationDecls = new Vector <> ();
 
-  public DispatcherImpl (final ISchemaProvider pschema)
+  public DispatcherImpl (final SchemaProvider pschema)
   {
     m_aSchema = pschema;
     m_aTransponder = new Transponder ();
@@ -190,7 +190,7 @@ public class DispatcherImpl implements IDispatcher
     m_aCurrentHandler.setDispatcher (this);
   }
 
-  public ISchemaProvider getSchemaProvider ()
+  public SchemaProvider getSchemaProvider ()
   {
     return m_aSchema;
   }
@@ -200,7 +200,7 @@ public class DispatcherImpl implements IDispatcher
     reader.setContentHandler (m_aTransponder);
   }
 
-  public void switchVerifier (final IIslandVerifier newVerifier) throws SAXException
+  public void switchVerifier (final IslandVerifier newVerifier) throws SAXException
   {
     // push context
     m_aContextStack = new Context (m_aCurrentHandler, m_nDepth, m_aContextStack);

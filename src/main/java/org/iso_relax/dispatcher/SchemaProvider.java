@@ -17,23 +17,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.iso_relax.verifier;
+package org.iso_relax.dispatcher;
+
+import java.util.Iterator;
 
 /**
- * The compiled representation of schemas.
- * <p>
- * <code>Schema</code> object must be thread-safe; multiple-threads can access
- * one <code>Schema</code> obejct at the same time.
- * <p>
- * The schema object allows an application to "cache" a schema by compiling it
- * once and using it many times, possibly by different threads.
+ * provides necessary schema information for Dispatcher. This interface can be
+ * implemented by applications.
+ *
+ * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  */
-public interface ISchema
+public interface SchemaProvider
 {
   /**
-   * creates a new Verifier object that validates documents with this schema.
-   *
-   * @return a valid non-null instance of a Verifier.
+   * creates IslandVerifier that validates document element.
    */
-  IVerifier newVerifier () throws VerifierConfigurationException;
+  IslandVerifier createTopLevelVerifier ();
+
+  /**
+   * gets IslandSchema whose primary namespace URI is the given value.
+   *
+   * @return null if no such IslandSchema exists.
+   */
+  IslandSchema getSchemaByNamespace (String uri);
+
+  /**
+   * iterates all namespaces that are registered in this object.
+   */
+  Iterator <String> iterateNamespace ();
+
+  /**
+   * returns all IslandSchemata at once.
+   */
+  IslandSchema [] getSchemata ();
 }

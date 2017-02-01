@@ -19,10 +19,10 @@
  */
 package org.iso_relax.dispatcher.impl;
 
-import org.iso_relax.dispatcher.IDispatcher;
-import org.iso_relax.dispatcher.IElementDecl;
-import org.iso_relax.dispatcher.IIslandSchema;
-import org.iso_relax.dispatcher.IIslandVerifier;
+import org.iso_relax.dispatcher.Dispatcher;
+import org.iso_relax.dispatcher.ElementDecl;
+import org.iso_relax.dispatcher.IslandSchema;
+import org.iso_relax.dispatcher.IslandVerifier;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -32,14 +32,14 @@ import org.xml.sax.helpers.DefaultHandler;
  *
  * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  */
-public final class IgnoreVerifier extends DefaultHandler implements IIslandVerifier
+public final class IgnoreVerifier extends DefaultHandler implements IslandVerifier
 {
-  private final IElementDecl [] m_aRules;
+  private final ElementDecl [] m_aRules;
   /**
    * elements in this namespace is validated by this IgnoreVerifier.
    */
   private final String m_sNamespaceToIgnore;
-  private IDispatcher m_aDispatcher;
+  private Dispatcher m_aDispatcher;
 
   /**
    * @param assignedRules
@@ -47,21 +47,21 @@ public final class IgnoreVerifier extends DefaultHandler implements IIslandVerif
    *        IslandVerifier actually does nothing, all these rules will be
    *        reported as satisfied upon completion.
    */
-  public IgnoreVerifier (final String pnamespaceToIgnore, final IElementDecl [] assignedRules)
+  public IgnoreVerifier (final String pnamespaceToIgnore, final ElementDecl [] assignedRules)
   {
     m_sNamespaceToIgnore = pnamespaceToIgnore;
     m_aRules = assignedRules;
   }
 
-  public IElementDecl [] endIsland ()
+  public ElementDecl [] endIsland ()
   {
     return m_aRules;
   }
 
-  public void endChildIsland (final String uri, final IElementDecl [] assignedLabels)
+  public void endChildIsland (final String uri, final ElementDecl [] assignedLabels)
   {}
 
-  public void setDispatcher (final IDispatcher disp)
+  public void setDispatcher (final Dispatcher disp)
   {
     m_aDispatcher = disp;
   }
@@ -79,7 +79,7 @@ public final class IgnoreVerifier extends DefaultHandler implements IIslandVerif
     }
 
     // try to locate a grammar of this namespace
-    final IIslandSchema is = m_aDispatcher.getSchemaProvider ().getSchemaByNamespace (namespaceURI);
+    final IslandSchema is = m_aDispatcher.getSchemaProvider ().getSchemaByNamespace (namespaceURI);
     if (is == null)
     {
       // no grammar is declared with this namespace URI.
@@ -87,7 +87,7 @@ public final class IgnoreVerifier extends DefaultHandler implements IIslandVerif
     }
 
     // a schema is found: revert to normal mode and validate them.
-    final IIslandVerifier iv = is.createNewVerifier (namespaceURI, is.getElementDecls ());
+    final IslandVerifier iv = is.createNewVerifier (namespaceURI, is.getElementDecls ());
     m_aDispatcher.switchVerifier (iv);
 
     // simulate this startElement method.

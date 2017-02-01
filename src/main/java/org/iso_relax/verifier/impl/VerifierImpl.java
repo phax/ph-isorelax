@@ -25,10 +25,10 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.iso_relax.verifier.IVerifier;
-import org.iso_relax.verifier.IVerifierFilter;
-import org.iso_relax.verifier.IVerifierHandler;
+import org.iso_relax.verifier.Verifier;
 import org.iso_relax.verifier.VerifierConfigurationException;
+import org.iso_relax.verifier.VerifierFilter;
+import org.iso_relax.verifier.VerifierHandler;
 import org.w3c.dom.Node;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.ErrorHandler;
@@ -40,7 +40,7 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 
 /**
- * Partial implementation of {@link IVerifier}.
+ * Partial implementation of {@link VerifierImpl}.
  * <p>
  * This class is useful as the base class of the verifier implementation.
  * <p>
@@ -52,7 +52,7 @@ import org.xml.sax.XMLReader;
  * @version $Id: VerifierImpl.java,v 1.4 2003/05/30 23:46:33 kkawa Exp $
  * @author <a href="mailto:kohsuke.kawaguchi@sun.com">Kohsuke KAWAGUCHI</a>
  */
-public abstract class Verifier implements IVerifier
+public abstract class VerifierImpl implements Verifier
 {
   protected XMLReader m_aReader;
   // default error handler must not report any error.
@@ -68,9 +68,9 @@ public abstract class Verifier implements IVerifier
     {}
   };
   protected EntityResolver m_aEntityResolver;
-  private IVerifierFilter m_aFilter;
+  private VerifierFilter m_aFilter;
 
-  protected Verifier () throws VerifierConfigurationException
+  protected VerifierImpl () throws VerifierConfigurationException
   {
     prepareXMLReader ();
   }
@@ -145,7 +145,7 @@ public abstract class Verifier implements IVerifier
   public boolean verify (final InputSource source) throws SAXException, IOException
   {
 
-    final IVerifierHandler handler = getVerifierHandler ();
+    final VerifierHandler handler = getVerifierHandler ();
 
     m_aReader.setErrorHandler (m_aErrorHandler);
     if (m_aEntityResolver != null)
@@ -172,17 +172,17 @@ public abstract class Verifier implements IVerifier
     // generate startDocument/endDocument events
     generator.setDocumentEmulation (true);
     generator.setErrorHandler (m_aErrorHandler);
-    final IVerifierHandler handler = getVerifierHandler ();
+    final VerifierHandler handler = getVerifierHandler ();
     generator.makeEvent (handler);
     return handler.isValid ();
   }
 
-  public abstract IVerifierHandler getVerifierHandler () throws SAXException;
+  public abstract VerifierHandler getVerifierHandler () throws SAXException;
 
-  public IVerifierFilter getVerifierFilter () throws SAXException
+  public VerifierFilter getVerifierFilter () throws SAXException
   {
     if (m_aFilter == null)
-      m_aFilter = new VerifierFilter (this);
+      m_aFilter = new VerifierFilterImpl (this);
     return m_aFilter;
   }
 }

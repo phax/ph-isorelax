@@ -17,22 +17,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.iso_relax.verifier;
+package org.iso_relax.dispatcher;
 
-/**
- * A class that provides information about the verifier implementation.
- * <p>
- * Implementations of this interface are discovered through
- * <code>META-INF/services</code>, just like JAXP. This object then provides
- * VerifierFactory implementation for the specified schema language.
- *
- * @author <a href="mailto:kohsukekawaguchi@yahoo.com">Kohsuke KAWAGUCHI</a>
- */
-public interface IVerifierFactoryLoader
+public interface AttributesVerifier
 {
-  /**
-   * returns a VerifierFactory that supports the specified schema language, or
-   * returns null if it's not supported.
-   */
-  VerifierFactory createFactory (String schemaLanguage);
+  // work in progress
 }

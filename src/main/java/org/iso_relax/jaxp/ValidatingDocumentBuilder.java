@@ -25,7 +25,7 @@ import java.io.InputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 
-import org.iso_relax.verifier.IVerifier;
+import org.iso_relax.verifier.Verifier;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.xml.sax.EntityResolver;
@@ -41,7 +41,7 @@ import org.xml.sax.SAXException;
 class ValidatingDocumentBuilder extends DocumentBuilder
 {
   protected DocumentBuilder m_aWrappedBuilder;
-  protected IVerifier m_aVerifier;
+  protected Verifier m_aVerifier;
 
   /**
    * creates a new instance with an internal DocumentBuilder and Schema.
@@ -51,7 +51,7 @@ class ValidatingDocumentBuilder extends DocumentBuilder
    * @param verifier
    *        verifier.
    */
-  public ValidatingDocumentBuilder (final DocumentBuilder wrapped, final IVerifier verifier)
+  public ValidatingDocumentBuilder (final DocumentBuilder wrapped, final Verifier verifier)
   {
     m_aWrappedBuilder = wrapped;
     m_aVerifier = verifier;

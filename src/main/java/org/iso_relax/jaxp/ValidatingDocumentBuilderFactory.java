@@ -23,7 +23,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.iso_relax.verifier.ISchema;
+import org.iso_relax.verifier.Schema;
 import org.iso_relax.verifier.VerifierConfigurationException;
 
 /**
@@ -33,7 +33,7 @@ import org.iso_relax.verifier.VerifierConfigurationException;
  */
 public class ValidatingDocumentBuilderFactory extends DocumentBuilderFactory
 {
-  protected ISchema m_aSchema;
+  protected Schema m_aSchema;
   protected DocumentBuilderFactory m_aWrappedFactory;
 
   private boolean m_bValidation = true;
@@ -44,7 +44,7 @@ public class ValidatingDocumentBuilderFactory extends DocumentBuilderFactory
    * @param schema
    *        the compiled Schema object. It can not be null.
    */
-  public ValidatingDocumentBuilderFactory (final ISchema schema)
+  public ValidatingDocumentBuilderFactory (final Schema schema)
   {
     this (DocumentBuilderFactory.newInstance (), schema);
   }
@@ -57,7 +57,7 @@ public class ValidatingDocumentBuilderFactory extends DocumentBuilderFactory
    * @param schema
    *        compiled schema.
    */
-  public ValidatingDocumentBuilderFactory (final DocumentBuilderFactory wrapped, final ISchema schema)
+  public ValidatingDocumentBuilderFactory (final DocumentBuilderFactory wrapped, final Schema schema)
   {
     m_aWrappedFactory = wrapped;
     m_aSchema = schema;

@@ -29,7 +29,7 @@ import org.xml.sax.SAXNotSupportedException;
  *
  * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  */
-public interface IAttributesDecl
+public interface AttributesDecl
 {
   /**
    * gets name of this rule. every AttributesDecl has a unique name within the
