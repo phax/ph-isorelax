@@ -63,7 +63,7 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   @Override
   public Document parse (final InputSource inputsource) throws SAXException, IOException
   {
-    return verify (m_aWrappedBuilder.parse (inputsource));
+    return _verify (m_aWrappedBuilder.parse (inputsource));
   }
 
   /**
@@ -72,7 +72,7 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   @Override
   public Document parse (final File file) throws SAXException, IOException
   {
-    return verify (m_aWrappedBuilder.parse (file));
+    return _verify (m_aWrappedBuilder.parse (file));
   }
 
   /**
@@ -81,7 +81,7 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   @Override
   public Document parse (final InputStream strm) throws SAXException, IOException
   {
-    return verify (m_aWrappedBuilder.parse (strm));
+    return _verify (m_aWrappedBuilder.parse (strm));
   }
 
   /**
@@ -91,7 +91,7 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   @Override
   public Document parse (final InputStream strm, final String systemId) throws SAXException, IOException
   {
-    return verify (m_aWrappedBuilder.parse (strm, systemId));
+    return _verify (m_aWrappedBuilder.parse (strm, systemId));
   }
 
   /**
@@ -100,7 +100,7 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   @Override
   public Document parse (final String url) throws SAXException, IOException
   {
-    return verify (m_aWrappedBuilder.parse (url));
+    return _verify (m_aWrappedBuilder.parse (url));
   }
 
   /**
@@ -159,7 +159,7 @@ class ValidatingDocumentBuilder extends DocumentBuilder
     return m_aWrappedBuilder.getDOMImplementation ();
   }
 
-  private Document verify (final Document dom) throws SAXException
+  private Document _verify (final Document dom) throws SAXException
   {
     if (m_aVerifier.verify (dom))
       return dom;

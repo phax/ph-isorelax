@@ -44,9 +44,9 @@ public class DispatcherImpl implements IDispatcher
 {
   protected static final class Context
   {
-    public final IIslandVerifier m_aHandler;
-    public final int m_nDepth;
-    public final Context m_aPrevious;
+    protected final IIslandVerifier m_aHandler;
+    protected final int m_nDepth;
+    protected final Context m_aPrevious;
 
     public Context (final IIslandVerifier phandler, final int pdepth, final Context pprevious)
     {

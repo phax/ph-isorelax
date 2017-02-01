@@ -48,46 +48,44 @@ import jp.gr.xml.relax.xml.UXML;
  */
 public class XMLMaker implements IDOMVisitor
 {
-  protected StringBuilder buffer_;
-  protected Charset encoding_ = StandardCharsets.UTF_8;
-  protected boolean dom2_ = false;
-  protected boolean expandEntityReference_ = false;
-  protected boolean emptyElementTag_ = false;
+  protected StringBuilder m_aSB = new StringBuilder ();
+  protected Charset m_aEncoding = StandardCharsets.UTF_8;
+  protected boolean m_bDOM2 = false;
+  protected boolean m_bExpandEntityReference = false;
+  protected boolean m_bEmptyElementTag = false;
 
   public XMLMaker ()
-  {
-    buffer_ = new StringBuilder ();
-  }
+  {}
 
   public void setEncoding (final Charset encoding)
   {
-    encoding_ = encoding;
+    m_aEncoding = encoding;
   }
 
   public void setDOM2 (final boolean dom2)
   {
-    dom2_ = dom2;
+    m_bDOM2 = dom2;
   }
 
   public void setExpandEntityReference (final boolean expand)
   {
-    expandEntityReference_ = expand;
+    m_bExpandEntityReference = expand;
   }
 
   public void setEmptyElementTag (final boolean empty)
   {
-    emptyElementTag_ = empty;
+    m_bEmptyElementTag = empty;
   }
 
   public String getText ()
   {
-    return buffer_.toString ();
+    return m_aSB.toString ();
   }
 
   public boolean enter (final Element element)
   {
     final String tag = element.getTagName ();
-    buffer_.append ('<').append (tag);
+    m_aSB.append ('<').append (tag);
     final NamedNodeMap attrs = element.getAttributes ();
     final int nAttrs = attrs.getLength ();
     for (int i = 0; i < nAttrs; i++)
@@ -95,42 +93,42 @@ public class XMLMaker implements IDOMVisitor
       final Attr attr = (Attr) attrs.item (i);
       if (attr.getSpecified ())
       {
-        buffer_.append (' ');
+        m_aSB.append (' ');
         enter (attr);
         leave (attr);
       }
     }
-    buffer_.append ('>');
+    m_aSB.append ('>');
     return true;
   }
 
   public void leave (final Element element)
   {
     final String tag = element.getTagName ();
-    buffer_.append ("</").append (tag).append ('>');
+    m_aSB.append ("</").append (tag).append ('>');
   }
 
   public boolean enter (final Attr attr)
   {
-    buffer_.append (attr.getName ()).append ("=\"").append (UXML.escapeAttrQuot (attr.getValue ())).append ('"');
+    m_aSB.append (attr.getName ()).append ("=\"").append (UXML.escapeAttrQuot (attr.getValue ())).append ('"');
     return true;
   }
 
   public boolean enter (final Text text)
   {
-    buffer_.append (UXML.escapeCharData (text.getData ()));
+    m_aSB.append (UXML.escapeCharData (text.getData ()));
     return true;
   }
 
   public boolean enter (final CDATASection cdata)
   {
-    buffer_.append ("<![CDATA[").append (cdata.getData ()).append ("]]>");
+    m_aSB.append ("<![CDATA[").append (cdata.getData ()).append ("]]>");
     return true;
   }
 
   public boolean enter (final EntityReference entityRef)
   {
-    buffer_.append ("&").append (entityRef.getNodeName ()).append (";");
+    m_aSB.append ("&").append (entityRef.getNodeName ()).append (";");
     return false;
   }
 
@@ -140,60 +138,60 @@ public class XMLMaker implements IDOMVisitor
     final String pid = entity.getPublicId ();
     final String sid = entity.getSystemId ();
     final String notation = entity.getNotationName ();
-    buffer_.append ("<!ENTITY ").append (name);
+    m_aSB.append ("<!ENTITY ").append (name);
     if (sid != null)
     {
       if (pid != null)
-        buffer_.append (" PUBLIC \"").append (pid).append ("\" \"").append (UXML.escapeSystemQuot (sid)).append ("\">");
+        m_aSB.append (" PUBLIC \"").append (pid).append ("\" \"").append (UXML.escapeSystemQuot (sid)).append ("\">");
       else
-        buffer_.append (" SYSTEM \"").append (UXML.escapeSystemQuot (sid)).append ("\">");
+        m_aSB.append (" SYSTEM \"").append (UXML.escapeSystemQuot (sid)).append ("\">");
       if (notation != null)
-        buffer_.append (" NDATA ").append (notation).append (">");
+        m_aSB.append (" NDATA ").append (notation).append (">");
     }
     else
     {
-      buffer_.append (" \"");
+      m_aSB.append (" \"");
       final XMLMaker entityMaker = new XMLMaker ();
       UDOMVisitor.traverseChildren (entity, entityMaker);
-      buffer_.append (UXML.escapeEntityQuot (entityMaker.getText ())).append ("\"").append (">");
+      m_aSB.append (UXML.escapeEntityQuot (entityMaker.getText ())).append ("\"").append (">");
     }
     return false;
   }
 
   public boolean enter (final ProcessingInstruction pi)
   {
-    buffer_.append ("<?").append (pi.getTarget ()).append (" ").append (pi.getData ()).append ("?>");
+    m_aSB.append ("<?").append (pi.getTarget ()).append (" ").append (pi.getData ()).append ("?>");
     return true;
   }
 
   public boolean enter (final Comment comment)
   {
-    buffer_.append ("<!--").append (comment.getData ()).append ("-->");
+    m_aSB.append ("<!--").append (comment.getData ()).append ("-->");
     return (true);
   }
 
   public boolean enter (final Document doc)
   {
-    buffer_.append ("<?xml version=\"1.0\" encoding=\"").append (encoding_.name ()).append ("\" ?>\n");
+    m_aSB.append ("<?xml version=\"1.0\" encoding=\"").append (m_aEncoding.name ()).append ("\" ?>\n");
     return (true);
   }
 
   public boolean enter (final DocumentType doctype)
   {
-    if (dom2_)
+    if (m_bDOM2)
     {
       final String name = doctype.getName ();
       final String publicId = doctype.getPublicId ();
       final String systemId = doctype.getSystemId ();
       final String internalSubset = doctype.getInternalSubset ();
-      buffer_.append ("<!DOCTYPE ").append (name);
+      m_aSB.append ("<!DOCTYPE ").append (name);
       if (publicId != null)
-        buffer_.append (" PUBLIC \"").append (publicId).append ("\"");
+        m_aSB.append (" PUBLIC \"").append (publicId).append ("\"");
       if (systemId != null)
-        buffer_.append (" SYSTEM \"").append (systemId).append ("\"");
+        m_aSB.append (" SYSTEM \"").append (systemId).append ("\"");
       if (internalSubset != null)
-        buffer_.append (" [").append (internalSubset).append ("]");
-      buffer_.append (">\n");
+        m_aSB.append (" [").append (internalSubset).append ("]");
+      m_aSB.append (">\n");
       return (true);
     }
 
@@ -201,17 +199,17 @@ public class XMLMaker implements IDOMVisitor
       final String name = doctype.getName ();
       final NamedNodeMap entities = doctype.getEntities ();
       final NamedNodeMap notations = doctype.getNotations ();
-      buffer_.append ("<!DOCTYPE ").append (name);
+      m_aSB.append ("<!DOCTYPE ").append (name);
       if (entities != null && entities.getLength () > 0 || notations != null && notations.getLength () > 0)
       {
 
-        buffer_.append (" [");
+        m_aSB.append (" [");
         final int nEntities = entities.getLength ();
         for (int i = 0; i < nEntities; i++)
         {
           final XMLMaker entityMaker = new XMLMaker ();
           UDOMVisitor.traverse (entities.item (i), entityMaker);
-          buffer_.append (entityMaker.getText ());
+          m_aSB.append (entityMaker.getText ());
         }
         final int nNotations = notations.getLength ();
         for (int i = 0; i < nNotations; i++)
@@ -219,9 +217,9 @@ public class XMLMaker implements IDOMVisitor
           enter ((Notation) notations.item (i));
           leave ((Notation) notations.item (i));
         }
-        buffer_.append ("]");
+        m_aSB.append ("]");
       }
-      buffer_.append (">\n");
+      m_aSB.append (">\n");
       return (true);
     }
   }
@@ -237,21 +235,21 @@ public class XMLMaker implements IDOMVisitor
     final String name = notation.getNodeName ();
     final String pid = notation.getPublicId ();
     final String sid = notation.getSystemId ();
-    buffer_.append ("<!NOTATION ").append (name);
+    m_aSB.append ("<!NOTATION ").append (name);
     if (pid != null)
     {
-      buffer_.append (" PUBLIC \"").append (pid).append ("\"");
+      m_aSB.append (" PUBLIC \"").append (pid).append ("\"");
       if (sid != null)
       {
-        buffer_.append (" \"").append (UXML.escapeSystemQuot (sid)).append ("\"");
+        m_aSB.append (" \"").append (UXML.escapeSystemQuot (sid)).append ("\"");
       }
     }
     else
       if (sid != null)
       {
-        buffer_.append (" SYSTEM \"").append (UXML.escapeSystemQuot (sid)).append ("\"");
+        m_aSB.append (" SYSTEM \"").append (UXML.escapeSystemQuot (sid)).append ("\"");
       }
-    buffer_.append (">");
+    m_aSB.append (">");
     return (true);
   }
 

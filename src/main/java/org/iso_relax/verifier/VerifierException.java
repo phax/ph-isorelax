@@ -19,9 +19,6 @@
  */
 package org.iso_relax.verifier;
 
-import java.io.PrintStream;
-import java.io.PrintWriter;
-
 import org.xml.sax.SAXException;
 
 /**
@@ -46,32 +43,5 @@ public class VerifierException extends SAXException
   public VerifierException (final String message, final Exception e)
   {
     super (message, e);
-  }
-
-  @Override
-  public void printStackTrace ()
-  {
-    printStackTrace (new PrintWriter (System.err, true));
-  }
-
-  @Override
-  public void printStackTrace (final PrintStream out)
-  {
-    printStackTrace (new PrintWriter (out));
-  }
-
-  @Override
-  public void printStackTrace (final PrintWriter pwriter)
-  {
-    final PrintWriter writer = pwriter != null ? pwriter : new PrintWriter (System.err, true);
-    super.printStackTrace (writer);
-
-    final Exception cause = super.getException ();
-    if (cause != null)
-    {
-      writer.println ();
-      writer.println ("StackTrace of Original Exception:");
-      cause.printStackTrace (writer);
-    }
   }
 }
