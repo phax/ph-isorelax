@@ -67,6 +67,7 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
+            <Automatic-Module-Name>com.helger.isorelax</Automatic-Module-Name>
             <Export-Package>org.iso_relax.*,
               jp.gr.xml.relax.*</Export-Package>
             <Import-Package>!javax.annotation.*,*</Import-Package>
