@@ -40,9 +40,9 @@ import org.xml.sax.InputSource;
 
 public class SimpleEntityResolver implements EntityResolver
 {
-  private final Map <String, String> publicIds_ = new HashMap<> ();
-  private final Map <String, String> systemIds_ = new HashMap<> ();
-  private final List <String> relativeSystemIds_ = new ArrayList<> ();
+  private final Map <String, String> publicIds_ = new HashMap <> ();
+  private final Map <String, String> systemIds_ = new HashMap <> ();
+  private final List <String> relativeSystemIds_ = new ArrayList <> ();
 
   public SimpleEntityResolver ()
   {}

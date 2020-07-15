@@ -74,8 +74,8 @@ public abstract class VerifierFactory
    * object that validates documents by using that schema.
    */
   public Verifier newVerifier (final InputStream stream) throws VerifierConfigurationException,
-                                                          SAXException,
-                                                          IOException
+                                                         SAXException,
+                                                         IOException
   {
 
     return compileSchema (stream, null).newVerifier ();
@@ -88,9 +88,8 @@ public abstract class VerifierFactory
    * @param systemId
    *        System ID of this stream.
    */
-  public Verifier newVerifier (final InputStream stream, final String systemId) throws VerifierConfigurationException,
-                                                                                 SAXException,
-                                                                                 IOException
+  public Verifier newVerifier (final InputStream stream,
+                               final String systemId) throws VerifierConfigurationException, SAXException, IOException
   {
 
     return compileSchema (stream, systemId).newVerifier ();
@@ -104,8 +103,8 @@ public abstract class VerifierFactory
    *        InputSource of a schema file
    */
   public Verifier newVerifier (final InputSource source) throws VerifierConfigurationException,
-                                                          SAXException,
-                                                          IOException
+                                                         SAXException,
+                                                         IOException
   {
 
     return compileSchema (source).newVerifier ();
@@ -117,8 +116,8 @@ public abstract class VerifierFactory
    * across multiple threads.
    */
   public abstract Schema compileSchema (InputSource is) throws VerifierConfigurationException,
-                                                         SAXException,
-                                                         IOException;
+                                                        SAXException,
+                                                        IOException;
 
   /**
    * processes a schema into a Schema object, which is a compiled representation
@@ -146,8 +145,8 @@ public abstract class VerifierFactory
    *        A stream object that holds a schema.
    */
   public Schema compileSchema (final InputStream stream) throws VerifierConfigurationException,
-                                                          SAXException,
-                                                          IOException
+                                                         SAXException,
+                                                         IOException
   {
 
     return compileSchema (stream, null);
@@ -161,9 +160,8 @@ public abstract class VerifierFactory
    * @param systemId
    *        The system Id of this input stream.
    */
-  public Schema compileSchema (final InputStream stream, final String systemId) throws VerifierConfigurationException,
-                                                                                 SAXException,
-                                                                                 IOException
+  public Schema compileSchema (final InputStream stream,
+                               final String systemId) throws VerifierConfigurationException, SAXException, IOException
   {
 
     final InputSource is = new InputSource (stream);
