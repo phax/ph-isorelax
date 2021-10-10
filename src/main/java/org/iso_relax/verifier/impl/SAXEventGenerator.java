@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2001-2002, SourceForge ISO-RELAX Project
  * (ASAMI Tomoharu, Daisuke Okajima, Kohsuke Kawaguchi, and MURATA Makoto)
  *
