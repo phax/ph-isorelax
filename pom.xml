@@ -84,7 +84,7 @@
               org.iso_relax.verifier,
               org.iso_relax.verifier.impl
             </Export-Package>
-            <Import-Package>!javax.annotation.*,*</Import-Package>
+            <Import-Package>*</Import-Package>
           </instructions>
         </configuration>
       </plugin>
