@@ -57,8 +57,8 @@ public class DispatcherImpl implements Dispatcher
   }
 
   /**
-   * relays SAX events to IslandVerifiers. This class is kept separate to make
-   * document of Dispatcher cleaner (by removing SAX events from Dispatcher).
+   * relays SAX events to IslandVerifiers. This class is kept separate to make document of
+   * Dispatcher cleaner (by removing SAX events from Dispatcher).
    */
   private class Transponder implements ContentHandler, DTDHandler
   {
@@ -159,9 +159,8 @@ public class DispatcherImpl implements Dispatcher
   }
 
   /**
-   * depth of the nesting of elements from the start of the current
-   * IslandVerifier. this value has to start with 1 to prevent initial
-   * IslandVerifier from being cut in.
+   * depth of the nesting of elements from the start of the current IslandVerifier. this value has
+   * to start with 1 to prevent initial IslandVerifier from being cut in.
    */
   private int m_nDepth = 1;
   protected Locator m_aDocumentLocator;

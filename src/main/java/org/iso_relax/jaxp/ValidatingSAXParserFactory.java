@@ -67,8 +67,8 @@ public class ValidatingSAXParserFactory extends SAXParserFactory
   }
 
   /**
-   * returns a new SAX parser. If setValidating(false) is called previously,
-   * this method simply returns the implementation of wrapped SAXParser.
+   * returns a new SAX parser. If setValidating(false) is called previously, this method simply
+   * returns the implementation of wrapped SAXParser.
    */
   @Override
   public SAXParser newSAXParser () throws ParserConfigurationException, SAXException
@@ -91,9 +91,8 @@ public class ValidatingSAXParserFactory extends SAXParserFactory
    * @see SAXParserFactory#setFeature(String, boolean)
    */
   @Override
-  public void setFeature (final String name, final boolean value) throws ParserConfigurationException,
-                                                                  SAXNotRecognizedException,
-                                                                  SAXNotSupportedException
+  public void setFeature (final String name,
+                          final boolean value) throws ParserConfigurationException, SAXNotRecognizedException, SAXNotSupportedException
   {
     m_aWrappedFactory.setFeature (name, value);
   }
@@ -102,9 +101,7 @@ public class ValidatingSAXParserFactory extends SAXParserFactory
    * @see SAXParserFactory#getFeature(String)
    */
   @Override
-  public boolean getFeature (final String name) throws ParserConfigurationException,
-                                                SAXNotRecognizedException,
-                                                SAXNotSupportedException
+  public boolean getFeature (final String name) throws ParserConfigurationException, SAXNotRecognizedException, SAXNotSupportedException
   {
     return m_aWrappedFactory.getFeature (name);
   }

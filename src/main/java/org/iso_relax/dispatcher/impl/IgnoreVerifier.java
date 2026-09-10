@@ -43,9 +43,8 @@ public final class IgnoreVerifier extends DefaultHandler implements IslandVerifi
 
   /**
    * @param assignedRules
-   *        this Verifier is supposed to validate these rules. since this
-   *        IslandVerifier actually does nothing, all these rules will be
-   *        reported as satisfied upon completion.
+   *        this Verifier is supposed to validate these rules. since this IslandVerifier actually
+   *        does nothing, all these rules will be reported as satisfied upon completion.
    */
   public IgnoreVerifier (final String pnamespaceToIgnore, final ElementDecl [] assignedRules)
   {

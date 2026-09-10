@@ -85,8 +85,7 @@ class ValidatingDocumentBuilder extends DocumentBuilder
   }
 
   /**
-   * Parses the given InputStream using the specified systemId and validates the
-   * resulting DOM.
+   * Parses the given InputStream using the specified systemId and validates the resulting DOM.
    */
   @Override
   public Document parse (final InputStream strm, final String systemId) throws SAXException, IOException

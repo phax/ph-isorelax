@@ -44,10 +44,10 @@ import org.xml.sax.XMLReader;
  * <p>
  * This class is useful as the base class of the verifier implementation.
  * <p>
- * The only remaining method that has to be implemented by the derived class is
- * the <code>getVerifierHandler</code> method. Please be noted that applications
- * can call the <code>setErrorHandler</code> method after the
- * <code>getVerifierHandler</code> method and that change should take effect.
+ * The only remaining method that has to be implemented by the derived class is the
+ * <code>getVerifierHandler</code> method. Please be noted that applications can call the
+ * <code>setErrorHandler</code> method after the <code>getVerifierHandler</code> method and that
+ * change should take effect.
  *
  * @version $Id: VerifierImpl.java,v 1.4 2003/05/30 23:46:33 kkawa Exp $
  * @author <a href="mailto:kohsuke.kawaguchi@sun.com">Kohsuke KAWAGUCHI</a>
@@ -76,8 +76,7 @@ public abstract class VerifierImpl implements Verifier
   }
 
   /**
-   * Creates and sets a sole instance of XMLReader which will be used by this
-   * verifier.
+   * Creates and sets a sole instance of XMLReader which will be used by this verifier.
    */
   protected void prepareXMLReader () throws VerifierConfigurationException
   {
@@ -100,30 +99,26 @@ public abstract class VerifierImpl implements Verifier
   @SuppressWarnings ("deprecation")
   public boolean isFeature (final String feature) throws SAXNotRecognizedException, SAXNotSupportedException
   {
-
     if (FEATURE_HANDLER.equals (feature) || FEATURE_FILTER.equals (feature))
       return true;
 
     throw new SAXNotRecognizedException (feature);
   }
 
-  public void setFeature (final String feature, final boolean value) throws SAXNotRecognizedException,
-                                                                     SAXNotSupportedException
+  public void setFeature (final String feature,
+                          final boolean value) throws SAXNotRecognizedException, SAXNotSupportedException
   {
-
     throw new SAXNotRecognizedException (feature);
   }
 
   public Object getProperty (final String property) throws SAXNotRecognizedException, SAXNotSupportedException
   {
-
     throw new SAXNotRecognizedException (property);
   }
 
-  public void setProperty (final String property, final Object value) throws SAXNotRecognizedException,
-                                                                      SAXNotSupportedException
+  public void setProperty (final String property,
+                           final Object value) throws SAXNotRecognizedException, SAXNotSupportedException
   {
-
     throw new SAXNotRecognizedException (property);
   }
 
@@ -144,7 +139,6 @@ public abstract class VerifierImpl implements Verifier
 
   public boolean verify (final InputSource source) throws SAXException, IOException
   {
-
     final VerifierHandler handler = getVerifierHandler ();
 
     m_aReader.setErrorHandler (m_aErrorHandler);

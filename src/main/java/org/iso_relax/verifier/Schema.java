@@ -22,11 +22,11 @@ package org.iso_relax.verifier;
 /**
  * The compiled representation of schemas.
  * <p>
- * <code>Schema</code> object must be thread-safe; multiple-threads can access
- * one <code>Schema</code> obejct at the same time.
+ * <code>Schema</code> object must be thread-safe; multiple-threads can access one
+ * <code>Schema</code> obejct at the same time.
  * <p>
- * The schema object allows an application to "cache" a schema by compiling it
- * once and using it many times, possibly by different threads.
+ * The schema object allows an application to "cache" a schema by compiling it once and using it
+ * many times, possibly by different threads.
  */
 public interface Schema
 {

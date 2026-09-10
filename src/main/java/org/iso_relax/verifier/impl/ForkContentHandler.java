@@ -41,8 +41,7 @@ public class ForkContentHandler implements ContentHandler
    * @param first
    *        This handler will receive a SAX event first.
    * @param second
-   *        This handler will receive a SAX event after the first handler
-   *        receives it.
+   *        This handler will receive a SAX event after the first handler receives it.
    */
   public ForkContentHandler (final ContentHandler first, final ContentHandler second)
   {
@@ -51,8 +50,8 @@ public class ForkContentHandler implements ContentHandler
   }
 
   /**
-   * Creates ForkContentHandlers so that the specified handlers will receive SAX
-   * events in the order of the array.
+   * Creates ForkContentHandlers so that the specified handlers will receive SAX events in the order
+   * of the array.
    */
   public static ContentHandler create (final ContentHandler [] handlers)
   {

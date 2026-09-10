@@ -23,33 +23,31 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 
 /**
- * represents a constraint for one XML element. One can obtain an IslandVerifier
- * that validates this constraint by calling createNewVerifier method of
- * IslandSchema who exported this object. This interface also provides
- * feature/property mechanism to encourage communications between two different
- * implementations.
+ * represents a constraint for one XML element. One can obtain an IslandVerifier that validates this
+ * constraint by calling createNewVerifier method of IslandSchema who exported this object. This
+ * interface also provides feature/property mechanism to encourage communications between two
+ * different implementations.
  *
  * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  */
 public interface ElementDecl
 {
   /**
-   * gets name of this rule. every ElementDecl has a unique name within the
-   * schema.
+   * gets name of this rule. every ElementDecl has a unique name within the schema.
    */
   String getName ();
 
   /**
-   * looks up the value of a feature this method works like getFeature method of
-   * SAX. featureName is a fully-qualified URI. Implementators are encouraged to
-   * invent their own features, by using their own URIs.
+   * looks up the value of a feature this method works like getFeature method of SAX. featureName is
+   * a fully-qualified URI. Implementators are encouraged to invent their own features, by using
+   * their own URIs.
    */
   boolean getFeature (String featureName) throws SAXNotRecognizedException, SAXNotSupportedException;
 
   /**
-   * looks up the value of a property this method works like getProperty method
-   * of SAX. propertyName is a fully-qualified URI. Implementators are
-   * encouraged to invent their own properties, by using their own URIs.
+   * looks up the value of a property this method works like getProperty method of SAX. propertyName
+   * is a fully-qualified URI. Implementators are encouraged to invent their own properties, by
+   * using their own URIs.
    */
   Object getProperty (String propertyName) throws SAXNotRecognizedException, SAXNotSupportedException;
 }

@@ -59,8 +59,8 @@ import jp.gr.xml.relax.sax.LexicalHandlerBase;
  * <p>
  * call the <code>makeEvent</code> method to use it.
  *
- * @author ASAMI, Tomoharu (asami@zeomtech.com)
- *         <a href="kohsuke.kawaguchi@sun.com">Kohsuke KAWAGUCHI</a>
+ * @author ASAMI, Tomoharu (asami@zeomtech.com) <a href="kohsuke.kawaguchi@sun.com">Kohsuke
+ *         KAWAGUCHI</a>
  */
 public class SAXEventGenerator implements IDOMVisitor
 {

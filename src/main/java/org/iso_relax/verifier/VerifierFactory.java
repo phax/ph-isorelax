@@ -72,9 +72,7 @@ public abstract class VerifierFactory
    * parses a schema from the specified InputStream and returns a Verifier object that validates
    * documents by using that schema.
    */
-  public Verifier newVerifier (final InputStream stream) throws VerifierConfigurationException,
-                                                         SAXException,
-                                                         IOException
+  public Verifier newVerifier (final InputStream stream) throws VerifierConfigurationException, SAXException, IOException
   {
     return compileSchema (stream, null).newVerifier ();
   }
@@ -86,9 +84,8 @@ public abstract class VerifierFactory
    * @param systemId
    *        System ID of this stream.
    */
-  public Verifier newVerifier (final InputStream stream, final String systemId) throws VerifierConfigurationException,
-                                                                                SAXException,
-                                                                                IOException
+  public Verifier newVerifier (final InputStream stream,
+                               final String systemId) throws VerifierConfigurationException, SAXException, IOException
   {
     return compileSchema (stream, systemId).newVerifier ();
   }
@@ -100,9 +97,7 @@ public abstract class VerifierFactory
    * @param source
    *        InputSource of a schema file
    */
-  public Verifier newVerifier (final InputSource source) throws VerifierConfigurationException,
-                                                         SAXException,
-                                                         IOException
+  public Verifier newVerifier (final InputSource source) throws VerifierConfigurationException, SAXException, IOException
   {
     return compileSchema (source).newVerifier ();
   }
@@ -111,9 +106,7 @@ public abstract class VerifierFactory
    * processes a schema into a Schema object, which is a compiled representation of a schema. The
    * obtained schema object can then be used concurrently across multiple threads.
    */
-  public abstract Schema compileSchema (InputSource is) throws VerifierConfigurationException,
-                                                        SAXException,
-                                                        IOException;
+  public abstract Schema compileSchema (InputSource is) throws VerifierConfigurationException, SAXException, IOException;
 
   /**
    * processes a schema into a Schema object, which is a compiled representation of a schema. The
@@ -137,9 +130,7 @@ public abstract class VerifierFactory
    * @param stream
    *        A stream object that holds a schema.
    */
-  public Schema compileSchema (final InputStream stream) throws VerifierConfigurationException,
-                                                         SAXException,
-                                                         IOException
+  public Schema compileSchema (final InputStream stream) throws VerifierConfigurationException, SAXException, IOException
   {
     return compileSchema (stream, null);
   }
@@ -151,9 +142,8 @@ public abstract class VerifierFactory
    * @param systemId
    *        The system Id of this input stream.
    */
-  public Schema compileSchema (final InputStream stream, final String systemId) throws VerifierConfigurationException,
-                                                                                SAXException,
-                                                                                IOException
+  public Schema compileSchema (final InputStream stream,
+                               final String systemId) throws VerifierConfigurationException, SAXException, IOException
   {
     final InputSource is = new InputSource (stream);
     is.setSystemId (systemId);
@@ -303,8 +293,8 @@ public abstract class VerifierFactory
    * @exception VerifierConfigurationException
    *            if no implementation is available for the specified language.
    */
-  public static VerifierFactory newInstance (final String language, final ClassLoader classLoader)
-                                                                                                   throws VerifierConfigurationException
+  public static VerifierFactory newInstance (final String language,
+                                             final ClassLoader classLoader) throws VerifierConfigurationException
   {
     for (final VerifierFactoryLoader loader : ServiceLoader.load (VerifierFactoryLoader.class, classLoader))
     {

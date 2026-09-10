@@ -35,11 +35,10 @@ public interface IslandSchema
    * creates a new IslandVerifier instance that is going to validate one island.
    *
    * @param namespaceURI
-   *        namespace URI of the newly found element, which is going to be
-   *        validated by the newly created IslandVerifier.
+   *        namespace URI of the newly found element, which is going to be validated by the newly
+   *        created IslandVerifier.
    * @param elementDecls
-   *        set of ElementDecl objects that newly created verifier shall
-   *        validate.
+   *        set of ElementDecl objects that newly created verifier shall validate.
    */
   IslandVerifier createNewVerifier (String namespaceURI, ElementDecl [] elementDecls);
 
@@ -70,21 +69,19 @@ public interface IslandSchema
   AttributesDecl [] getAttributesDecls ();
 
   /**
-   * creates a new AttributesVerifier instance that is going to validate
-   * attribute declarations.
+   * creates a new AttributesVerifier instance that is going to validate attribute declarations.
    *
    * @param namespaceURI
-   *        namespace URI of the attributes, which is going to be validated by
-   *        the newly created verifier.
+   *        namespace URI of the attributes, which is going to be validated by the newly created
+   *        verifier.
    * @param decls
-   *        set of AttributesDecl objects that newly created verifier shall
-   *        validate.
+   *        set of AttributesDecl objects that newly created verifier shall validate.
    */
   AttributesVerifier createNewAttributesVerifier (String namespaceURI, AttributesDecl [] decls);
 
   /**
-   * binds references to imported elementDecls by using given provider. this
-   * method is only called once before the first validation starts.
+   * binds references to imported elementDecls by using given provider. this method is only called
+   * once before the first validation starts.
    *
    * @exception SAXException
    *            any error has to be reported to ErrorHandler first.

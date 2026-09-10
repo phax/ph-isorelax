@@ -27,8 +27,8 @@ import org.iso_relax.dispatcher.IslandSchema;
 import org.iso_relax.dispatcher.SchemaProvider;
 
 /**
- * default implementation of SchemaProvider. Applications can use this class as
- * the base class of their own SchemaProvider.
+ * default implementation of SchemaProvider. Applications can use this class as the base class of
+ * their own SchemaProvider.
  *
  * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  */
@@ -39,8 +39,7 @@ public abstract class AbstractSchemaProviderImpl implements SchemaProvider
   protected final Map <String, IslandSchema> m_aSchemata = new HashMap <> ();
 
   /**
-   * adds a new IslandSchema. the caller should make sure that the given uri is
-   * not defined already.
+   * adds a new IslandSchema. the caller should make sure that the given uri is not defined already.
    */
   public void addSchema (final String uri, final IslandSchema s)
   {

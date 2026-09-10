@@ -33,8 +33,8 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXNotRecognizedException;
 
 /**
- * IslandSchema implementation for "ignored" island. This schema exports
- * whatever importer wants, and anything is valid in this schema.
+ * IslandSchema implementation for "ignored" island. This schema exports whatever importer wants,
+ * and anything is valid in this schema.
  *
  * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  */

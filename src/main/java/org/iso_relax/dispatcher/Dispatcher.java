@@ -26,8 +26,8 @@ import org.xml.sax.XMLReader;
 /**
  * splits incoming SAX events to "islands", and feed events to IslandVerifier.
  *
- * @author <a href="mailto:mura034@attglobal.net">MURATA Makoto (FAMILY
- *         Given)</a>, <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
+ * @author <a href="mailto:mura034@attglobal.net">MURATA Makoto (FAMILY Given)</a>,
+ *         <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  * @version 1.1
  */
 public interface Dispatcher
@@ -38,21 +38,20 @@ public interface Dispatcher
   void attachXMLReader (XMLReader reader);
 
   /**
-   * switches to the child IslandVerifier. this method can only be called during
-   * startElement method.
+   * switches to the child IslandVerifier. this method can only be called during startElement
+   * method.
    */
   void switchVerifier (IslandVerifier newVerifier) throws SAXException;
 
   /**
-   * sets application-implemented ErrorHandler, which will receive all
-   * validation errors.
+   * sets application-implemented ErrorHandler, which will receive all validation errors.
    */
   void setErrorHandler (ErrorHandler handler);
 
   /**
-   * gets ErrorHandler to which IslandVerifier reports validation errors. the
-   * caller may not assume that this method returns the same object that was
-   * passed to setErrorHandler method. this method cannot return null.
+   * gets ErrorHandler to which IslandVerifier reports validation errors. the caller may not assume
+   * that this method returns the same object that was passed to setErrorHandler method. this method
+   * cannot return null.
    */
   ErrorHandler getErrorHandler ();
 
@@ -77,9 +76,8 @@ public interface Dispatcher
   int countNotationDecls ();
 
   /**
-   * gets <i>i</i>th notation declaration found in this XML instance.
-   * IslandVerifiers can not receive DTDHandler events. Those who need DTD
-   * information should call this method.
+   * gets <i>i</i>th notation declaration found in this XML instance. IslandVerifiers can not
+   * receive DTDHandler events. Those who need DTD information should call this method.
    */
   NotationDecl getNotationDecl (int index);
 
@@ -106,9 +104,8 @@ public interface Dispatcher
   int countUnparsedEntityDecls ();
 
   /**
-   * gets <i>i</i>th unparsed entity found in this XML instance. IslandVerifiers
-   * can not receive DTDHandler events. Those who need DTD information should
-   * call this method.
+   * gets <i>i</i>th unparsed entity found in this XML instance. IslandVerifiers can not receive
+   * DTDHandler events. Those who need DTD information should call this method.
    */
   UnparsedEntityDecl getUnparsedEntityDecl (int index);
 

@@ -22,8 +22,8 @@ package org.iso_relax.dispatcher;
 import java.util.Iterator;
 
 /**
- * provides necessary schema information for Dispatcher. This interface can be
- * implemented by applications.
+ * provides necessary schema information for Dispatcher. This interface can be implemented by
+ * applications.
  *
  * @author <a href="mailto:k-kawa@bigfoot.com">Kohsuke KAWAGUCHI</a>
  */

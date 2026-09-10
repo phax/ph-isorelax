@@ -38,8 +38,8 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * Wrapper SAXParser with validation through JARV API. For the present, SAX1
- * features are not supported.
+ * Wrapper SAXParser with validation through JARV API. For the present, SAX1 features are not
+ * supported.
  *
  * @author Daisuke OKAJIMA
  */
@@ -105,8 +105,8 @@ class ValidatingSAXParser extends SAXParser
    * @see SAXParser#setProperty(String, Object)
    */
   @Override
-  public void setProperty (final String name, final Object value) throws SAXNotRecognizedException,
-                                                                  SAXNotSupportedException
+  public void setProperty (final String name,
+                           final Object value) throws SAXNotRecognizedException, SAXNotSupportedException
   {
     m_aWrappedParser.setProperty (name, value);
   }
@@ -187,12 +187,12 @@ class ValidatingSAXParser extends SAXParser
   }
 
   /**
-   * parses and validates the given InputSream using the given DefaultHandler
-   * and systemId
+   * parses and validates the given InputSream using the given DefaultHandler and systemId
    */
   @Override
-  public void parse (final InputStream is, final DefaultHandler dh, final String systemId) throws SAXException,
-                                                                                           IOException
+  public void parse (final InputStream is,
+                     final DefaultHandler dh,
+                     final String systemId) throws SAXException, IOException
   {
     final XMLReader reader = getXMLReader ();
     final InputSource source = new InputSource (is);

@@ -32,11 +32,9 @@ import org.xml.sax.helpers.XMLFilterImpl;
 /**
  * plain vanilla {@link VerifierFilterImpl} implementation.
  * <p>
- * A verifier implementation can use this class to support VerifierFilter
- * functionality.
+ * A verifier implementation can use this class to support VerifierFilter functionality.
  * <p>
- * To use this class, implement the {@link Verifier#getVerifierFilter()} method
- * as follows:
+ * To use this class, implement the {@link Verifier#getVerifierFilter()} method as follows:
  *
  * <pre>
  * public VerifierFilter getVerifierFilter () throws SAXException
@@ -45,8 +43,8 @@ import org.xml.sax.helpers.XMLFilterImpl;
  * }
  * </pre>
  * <p>
- * Also, usually you may want to override <code>setErrorHandler</code> method so
- * that your <code>VerifierHandler</code> will send errors to that handler.
+ * Also, usually you may want to override <code>setErrorHandler</code> method so that your
+ * <code>VerifierHandler</code> will send errors to that handler.
  *
  * @version $Id: VerifierFilterImpl.java,v 1.5 2003/05/30 23:46:33 kkawa Exp $
  * @author <a href="mailto:kohsuke.kawaguchi@sun.com">Kohsuke KAWAGUCHI</a>

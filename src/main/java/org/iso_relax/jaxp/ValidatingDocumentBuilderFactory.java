@@ -64,8 +64,8 @@ public class ValidatingDocumentBuilderFactory extends DocumentBuilderFactory
   }
 
   /**
-   * returns a new DOM parser. If setValidating(false) is called previously,
-   * this method simply returns the implementation of wrapped DocumentBuilder.
+   * returns a new DOM parser. If setValidating(false) is called previously, this method simply
+   * returns the implementation of wrapped DocumentBuilder.
    */
   @Override
   public DocumentBuilder newDocumentBuilder () throws ParserConfigurationException
